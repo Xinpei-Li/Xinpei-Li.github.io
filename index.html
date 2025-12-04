@@ -1,54 +1,118 @@
-# 🔮 萬能預言家之書 (The Omniscient Oracle Book)
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>萬能預言家之書</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+<style>
+/* 頁面通用和背景設置 */
+body {
+    font-family: 'Noto Serif TC', serif; /* 古典感的字體 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #e5dcc3; /* 羊皮紙淡黃色 */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><rect fill="#e5dcc3" width="4" height="4"/><rect fill="#dccda3" x="0" y="0" width="1" height="1"/><rect fill="#dccda3" x="2" y="2" width="1" height="1"/></svg>'); /* 簡單的紋理 */
+    color: #333;
+}
 
-> 輸入你的任何問題，讓命運之神給你一個既荒謬又令人深思的答案！
+/* 核心容器 (模擬書本) */
+.container {
+    background-color: #fcfcf0; /* 書頁的顏色 */
+    padding: 50px 60px;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), /* 底部陰影 */
+                inset 0 0 20px rgba(0, 0, 0, 0.1); /* 內側陰影 */
+    border: 5px double #a0522d; /* 邊緣雙線邊框 */
+    transform: rotateZ(-1deg); /* 輕微旋轉 */
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
 
-## 🌟 專案簡介
+/* 標題 */
+h1 {
+    font-family: 'Playfair Display', serif; /* 神秘風格字體 */
+    color: #5d0000; /* 深沉的紅 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); 
+    margin-bottom: 30px;
+    font-size: 2.5em;
+}
 
-這是一個基於 Web 前端技術開發的互動式問答小遊戲。本專案旨在結合神祕的占卜主題與輕鬆幽默的網路文化，提供一個簡單有趣的線上互動體驗。
+/* 輸入框 */
+#question-input {
+    width: 90%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+    text-align: center;
+}
 
-## ✨ 主要特色
+/* 按鈕 */
+#predict-button {
+    padding: 12px 25px;
+    background-color: #8b0000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
 
-* **神秘與趣味結合：** 採用古老的書籍風格設計，但答案庫充滿了無厘頭的幽默回答。
-* **互動儀式感：** 點擊按鈕後，模擬 1.5 秒的「命運運算中」加載動畫，增加揭曉答案時的期待感。
-* **純前端實現：** 僅使用 HTML, CSS, JavaScript 實現所有功能，無需後端資料庫。
-* **響應式設計：** 基礎樣式已適配手機和桌面瀏覽器。
+#predict-button:hover {
+    background-color: #a02a2a;
+}
 
-## 🛠️ 技術棧
+/* 結果區 (預言揭示區) */
+#result {
+    margin-top: 30px;
+    min-height: 60px;
+    font-size: 1.6em;
+    font-weight: bold;
+    font-style: italic; /* 預言感 */
+    color: #333;
+    padding: 20px;
+    
+    border: 3px solid #6a5acd; /* 魔法感的藍紫色邊框 */
+    background-color: #f7f7ff; /* 略微發光的背景 */
+    box-shadow: 0 0 10px rgba(106, 90, 205, 0.7); /* 發光效果 */
 
-| 技術 | 目的 |
-| :--- | :--- |
-| **HTML5** | 建立網頁結構與輸入介面。 |
-| **CSS3** | 頁面美化、排版，包含動畫 (`@keyframes`) 與主題風格設計。 |
-| **JavaScript** | 隨機數生成、答案選擇、DOM 操作、延時控制 (`setTimeout`)。 |
+    border-radius: 10px;
+    opacity: 0; 
+    transition: opacity 0.5s ease-in-out;
+}
 
-## 🚀 如何開始 (部署與運行)
+/* 加載動畫 */
+.loading-animation {
+    animation: pulse 0.5s infinite alternate;
+}
 
-### 1. 本地運行
+@keyframes pulse {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+</style>
+</head>
+<body>
 
-1.  克隆 (Clone) 本儲存庫到您的電腦：
-    ```bash
-    git clone [您的儲存庫 URL]
-    ```
-2.  進入專案目錄：
-    ```bash
-    cd oracle-book
-    ```
-3.  直接用任何瀏覽器（如 Chrome, Firefox）開啟 `index.html` 檔案即可。
+<div class="container">
+    <h1>萬能預言家之書</h1>
+    <p>請在下方輸入你的問題：</p>
+    <input type="text" id="question-input" placeholder="例如：我會發財嗎？">
 
-### 2. 線上部署 (GitHub Pages)
+    <button id="predict-button">詢問命運</button>
 
-您可以將本專案部署到免費的 GitHub Pages 服務：
+    <div id="result">
+    </div>
+</div>
 
-1.  將 `index.html` 和 `script.js` 上傳到您的 GitHub 儲存庫。
-2.  在儲存庫 **Settings** 中啟用 **Pages**，選擇 `main` 分支作為來源。
-3.  稍等片刻，您的專案即可透過 `[您的用戶名].github.io/[儲存庫名稱]` 訪問。
-
-## 💡 貢獻與優化
-
-歡迎對這個專案進行貢獻或提出優化建議！您可以：
-
-1.  **擴充答案庫：** 在 `script.js` 的 `answers` 陣列中加入更多爆笑的預言。
-2.  **CSS 美化：** 增加更豐富的紋理、動畫或響應式佈局。
-3.  **UI/UX 改進：** 增加輸入文字的動畫效果，或更換 loading 動畫。
-
----
+<script src="script.js"></script>
+</body>
+</html>
