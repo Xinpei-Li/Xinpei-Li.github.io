@@ -48,11 +48,11 @@ function loadImage(name, src) {
 }
 
 // **圖片載入：統一使用全小寫路徑**
-loadImage('player1_idle', './assets/player1_idle.png'); 
-loadImage('player2_idle', './assets/player2_idle.png');
-loadImage('player1_attack', './assets/player1_attack.png'); 
-loadImage('player2_attack', './assets/player2_attack.png'); 
-loadImage('background', './assets/background.png');
+loadImage('player1_idle', './assets/player1_idle_0.png'); 
+loadImage('player2_idle', './assets/player2_idle_0.png');
+loadImage('player1_attack', './assets/player1_attack_0.png'); 
+loadImage('player2_attack', './assets/player2_attack_0.png'); 
+loadImage('background', './assets/background.png'); // 背景圖不變
 
 
 // --- 角色類別 (Fighter Class) ---
