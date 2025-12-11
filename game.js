@@ -1,82 +1,153 @@
 // --- 遊戲設定 ---
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
 canvas.width = 640;
 canvas.height = 480;
 
-// 定義重力和地面高度
 const GRAVITY = 0.7;
-const FLOOR_Y = canvas.height - 50; // 地面線
+const FLOOR_Y = canvas.height - 50; 
+
+// --- 遊戲狀態與 DOM 元素 ---
+let gameActive = false; 
+let animationFrameId;   
+
+const gameOverlay = document.getElementById('gameOverlay');
+const gameMessage = document.getElementById('gameMessage');
+const startButton = document.getElementById('startButton');
+const restartButton = document.getElementById('restartButton');
+
+if (restartButton) restartButton.style.display = 'none';
+
+
+// --- 圖片加載處理 ---
+const loadedImages = {};
+let imagesToLoad = 0;
+
+function loadImage(name, src) {
+    imagesToLoad++;
+    const img = new Image();
+    img.onload = () => {
+        imagesToLoad--;
+        if (imagesToLoad === 0) {
+            drawInitialScreen(); 
+        }
+    };
+    img.src = src;
+    // 解決像素圖模糊問題
+    ctx.imageSmoothingEnabled = false; 
+    img.style.imageRendering = 'pixelated';
+    loadedImages[name] = img;
+}
+
+// **圖片載入：請確保路徑正確！**
+loadImage('player1_idle', './assets/player1_idle.png');
+loadImage('player2_idle', './assets/player2_idle.png');
+loadImage('player1_attack', './assets/player1_attack.png'); 
+loadImage('player2_attack', './assets/player2_attack.png'); 
+loadImage('background', './assets/background.png');
+
 
 // --- 角色類別 (Fighter Class) ---
 class Fighter {
-    constructor({ x, y, width, height, color, velocity, healthBarId, isAI = false }) {
+    constructor({ x, y, width, height, color, healthBarId, isAI = false, imageKeys }) {
+        this.initialX = x; 
+        this.initialY = y;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.color = color;
-        this.velocity = velocity || { x: 0, y: 0 };
+        this.velocity = { x: 0, y: 0 };
         this.isJumping = false;
         this.health = 100;
         this.healthBar = document.getElementById(healthBarId);
         this.isAttacking = false;
+        this.isAI = isAI; 
+        this.imageKeys = imageKeys;
         this.attackBox = {
             position: { x: this.x, y: this.y },
             width: 100,
             height: 50
         };
-        this.isAI = isAI; // 標記是否為電腦控制
     }
 
-    // 繪製角色
-    draw() {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+    reset() {
+        this.x = this.initialX;
+        this.y = this.initialY;
+        this.velocity = { x: 0, y: 0 };
+        this.isJumping = false;
+        this.health = 100;
+        this.isAttacking = false;
+        if (this.healthBar) {
+            this.healthBar.style.width = '100%';
+        }
+    }
 
-        // 繪製攻擊判定框 (測試用，實際遊戲中通常不顯示)
+    draw() {
+        // 決定當前要繪製的圖片
+        let currentImage;
         if (this.isAttacking) {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            currentImage = loadedImages[this.imageKeys.attack];
+        } else {
+            currentImage = loadedImages[this.imageKeys.idle];
+        }
+
+        if (currentImage && currentImage.complete) {
+            ctx.drawImage(
+                currentImage, 
+                this.x, 
+                this.y, 
+                this.width, 
+                this.height
+            );
+        } else {
+             // 圖片未載入時，退回繪製方塊
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+
+        // 繪製攻擊判定框 (用於調試)
+        if (this.isAttacking) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'; 
             ctx.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
         }
     }
 
-    // 更新角色的位置和狀態
     update() {
         this.draw();
 
-        // 根據角色顏色/方向，更新攻擊判定框的位置
-        if (this.color === 'red') { // Player 1 (紅方) 攻擊框在右側
+        // 1. 更新攻擊判定框的位置 (根據角色方向)
+        if (this.color === 'red') {
             this.attackBox.position.x = this.x + this.width;
-        } else { // Player 2 (藍方/電腦) 攻擊框在左側
+        } else {
             this.attackBox.position.x = this.x - this.attackBox.width;
         }
         this.attackBox.position.y = this.y;
 
-        // 應用水平速度
+        // 2. 應用物理和移動
         this.x += this.velocity.x;
-        // 應用垂直速度
         this.y += this.velocity.y;
 
-        // 應用重力 (如果不在地面上)
+        // 應用重力
         if (this.y + this.height + this.velocity.y < FLOOR_Y) {
             this.velocity.y += GRAVITY;
         } else {
-            // 角色落地
             this.velocity.y = 0;
             this.y = FLOOR_Y - this.height;
             this.isJumping = false;
         }
 
-        // 更新生命條
-        this.healthBar.style.width = this.health + '%';
+        // 3. 更新生命條顯示
+        if (this.healthBar) {
+            this.healthBar.style.width = Math.max(0, this.health) + '%';
+        }
     }
 
-    // 角色攻擊動作
     attack() {
-        if (!this.isAttacking) { // 避免連續攻擊
+        if (!this.isAttacking) {
             this.isAttacking = true;
-            // 攻擊動畫/判定只持續 100 毫秒
+            // 攻擊判定和動畫持續 100 毫秒
             setTimeout(() => {
                 this.isAttacking = false;
             }, 100);
@@ -91,7 +162,8 @@ const player1 = new Fighter({
     width: 50,
     height: 100,
     color: 'red',
-    healthBarId: 'player1Health'
+    healthBarId: 'player1Health',
+    imageKeys: { idle: 'player1_idle', attack: 'player1_attack' }
 });
 
 const player2 = new Fighter({
@@ -101,21 +173,18 @@ const player2 = new Fighter({
     height: 100,
     color: 'blue',
     healthBarId: 'player2Health',
-    isAI: true // 設為 AI 控制
+    isAI: true,
+    imageKeys: { idle: 'player2_idle', attack: 'player2_attack' }
 });
 
-// --- 輸入控制 (Keys) ---
+// --- 輸入控制狀態 (Keys) ---
 const keys = {
-    // Player 1: WASD & Space
     a: { pressed: false },
     d: { pressed: false },
-    space: { pressed: false }, // Attack
-    // Player 2 的按鍵邏輯已經移除
 };
 
-// --- 碰撞偵測函數 ---
+// --- 碰撞偵測 (rectangularCollision) ---
 function rectangularCollision(rect1, rect2) {
-    // 檢查 rect1 的攻擊框是否與 rect2 的本體碰撞
     return (
         rect1.attackBox.position.x + rect1.attackBox.width >= rect2.x &&
         rect1.attackBox.position.x <= rect2.x + rect2.width &&
@@ -127,110 +196,132 @@ function rectangularCollision(rect1, rect2) {
 // --- 電腦玩家 (Player 2) AI 邏輯 ---
 function handleBotAI() {
     const distance = player2.x - player1.x;
-    const attackRange = 100; // 電腦覺得可以攻擊的距離 (與攻擊框寬度相關)
-    const tooClose = 50; // 距離太近，考慮後退
+    const attackRange = 100; 
+    const tooClose = 50; 
 
-    // 1. 基礎移動邏輯 (追蹤)
     player2.velocity.x = 0;
     
+    // 1. 移動邏輯
     if (distance > attackRange) {
-        // 玩家太遠，靠近玩家 (向左移動)
-        player2.velocity.x = -3;
+        player2.velocity.x = -3; 
     } else if (distance < tooClose && distance > 0) {
-        // 玩家太近，嘗試遠離一點 (向右移動)
-        player2.velocity.x = 2;
+        player2.velocity.x = 2; 
     }
     
     // 2. 攻擊邏輯
-    // 如果玩家在攻擊範圍內，且電腦不在攻擊中，且有 5% 的機率攻擊
-    if (distance <= attackRange && distance > 0 && !player2.isAttacking && Math.random() < 0.05) {
+    if (distance <= attackRange && distance > 0 && Math.random() < 0.05) {
         player2.attack();
     }
 
-    // 3. 跳躍邏輯 (偶爾)
-    // 每幀 0.5% 的機率跳躍
+    // 3. 跳躍邏輯
     if (!player2.isJumping && Math.random() < 0.005) {
-        player2.velocity.y = -15; // 跳躍力度
+        player2.velocity.y = -15; 
         player2.isJumping = true;
     }
 }
 
 
+// --- 遊戲結束處理 ---
+function gameOver(winner) {
+    gameActive = false;
+    window.cancelAnimationFrame(animationFrameId); 
+    
+    gameOverlay.style.display = 'flex';
+    gameMessage.textContent = 'GAME OVER: ' + winner;
+    startButton.style.display = 'none'; 
+    restartButton.style.display = 'block'; 
+}
+
+// --- 遊戲初始化和重設 ---
+function initGame() {
+    player1.reset();
+    player2.reset();
+    gameActive = true;
+    
+    gameOverlay.style.display = 'none';
+    
+    // 啟動遊戲循環
+    animate();
+}
+
 // --- 遊戲主循環 (Animation Loop) ---
 function animate() {
-    window.requestAnimationFrame(animate); 
+    if (!gameActive) return; 
 
-    // 清空畫布並繪製背景
-    ctx.fillStyle = 'black'; 
-    ctx.fillRect(0, 0, canvas.width, canvas.height); 
+    animationFrameId = window.requestAnimationFrame(animate); 
+
+    // 1. 繪製背景
+    if (loadedImages['background'] && loadedImages['background'].complete) {
+        ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
+    } else {
+        // 如果背景圖沒載入，則繪製備用地面和天空
+        ctx.fillStyle = 'black'; 
+        ctx.fillRect(0, 0, canvas.width, FLOOR_Y); 
+        ctx.fillStyle = '#654321'; 
+        ctx.fillRect(0, FLOOR_Y, canvas.width, canvas.height - FLOOR_Y);
+    }
     
-    // 繪製地面
-    ctx.fillStyle = '#654321'; 
-    ctx.fillRect(0, FLOOR_Y, canvas.width, canvas.height - FLOOR_Y);
-
-    // 處理玩家 1 的移動
+    // 2. 處理移動和 AI
     player1.velocity.x = 0;
     if (keys.a.pressed) {
         player1.velocity.x = -5;
     } else if (keys.d.pressed) {
         player1.velocity.x = 5;
     }
-
-    // 處理電腦 AI 的行動
     handleBotAI();
 
-    // 更新角色位置
+    // 3. 更新角色
     player1.update();
     player2.update();
 
-    // --- 攻擊判定邏輯 ---
-    // 1. 玩家 1 攻擊玩家 2 (電腦)
+    // 4. 攻擊判定
     if (player1.isAttacking && rectangularCollision(player1, player2)) {
         player1.isAttacking = false; 
         player2.health -= 20; 
-        console.log('Player 1 Hit Player 2 (AI)!');
     }
-
-    // 2. 玩家 2 (電腦) 攻擊玩家 1
     if (player2.isAttacking && rectangularCollision(player2, player1)) {
         player2.isAttacking = false;
         player1.health -= 20;
-        console.log('Player 2 (AI) Hit Player 1!');
     }
     
-    // 處理遊戲結束
+    // 5. 檢查遊戲結束
     if (player1.health <= 0 || player2.health <= 0) {
-        // 停止動畫循環
-        cancelAnimationFrame(animate); 
-        ctx.fillStyle = 'white';
-        ctx.font = '48px Arial';
-        ctx.textAlign = 'center';
-        // 判斷贏家
-        const winner = player1.health > 0 ? 'Player 1 Wins' : 'AI Wins';
-        ctx.fillText('Game Over: ' + winner, canvas.width / 2, canvas.height / 2);
+        const winner = player1.health > 0 ? 'Player 1 Wins!' : 'AI Wins!';
+        gameOver(winner);
     }
 }
 
-// 啟動遊戲
-animate();
+// --- 初始畫面繪製 ---
+function drawInitialScreen() {
+    if (imagesToLoad === 0) {
+        // 繪製初始背景
+        if (loadedImages['background']) {
+            ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
+        }
+        player1.draw();
+        player2.draw();
+    }
+}
 
 
-// --- 鍵盤事件監聽 (僅處理 Player 1) ---
+// --- DOM 事件監聽 ---
+if (startButton) startButton.addEventListener('click', initGame);
+if (restartButton) restartButton.addEventListener('click', initGame);
+
+
+// 鍵盤事件監聽
 window.addEventListener('keydown', (event) => {
+    if (!gameActive) return; 
+
     switch (event.key) {
-        // Player 1 移動
         case 'd': keys.d.pressed = true; break;
         case 'a': keys.a.pressed = true; break;
-        
-        // Player 1 跳躍
         case 'w': 
             if (!player1.isJumping) { 
                 player1.velocity.y = -15; 
                 player1.isJumping = true;
             }
             break;
-        
-        // Player 1 攻擊
         case ' ': 
             player1.attack(); 
             break; 
@@ -238,6 +329,8 @@ window.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('keyup', (event) => {
+    if (!gameActive) return; 
+
     switch (event.key) {
         case 'd': keys.d.pressed = false; break;
         case 'a': keys.a.pressed = false; break;
