@@ -1,118 +1,24 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>萬能預言家之書</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
-<style>
-/* 頁面通用和背景設置 */
-body {
-    font-family: 'Noto Serif TC', serif; /* 古典感的字體 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    background-color: #e5dcc3; /* 羊皮紙淡黃色 */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" viewBox="0 0 4 4"><rect fill="#e5dcc3" width="4" height="4"/><rect fill="#dccda3" x="0" y="0" width="1" height="1"/><rect fill="#dccda3" x="2" y="2" width="1" height="1"/></svg>'); /* 簡單的紋理 */
-    color: #333;
-}
-
-/* 核心容器 (模擬書本) */
-.container {
-    background-color: #fcfcf0; /* 書頁的顏色 */
-    padding: 50px 60px;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), /* 底部陰影 */
-                inset 0 0 20px rgba(0, 0, 0, 0.1); /* 內側陰影 */
-    border: 5px double #a0522d; /* 邊緣雙線邊框 */
-    transform: rotateZ(0deg); /* 輕微旋轉 */
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-}
-
-/* 標題 */
-h1 {
-    font-family: 'Playfair Display', serif; /* 神秘風格字體 */
-    color: #5d0000; /* 深沉的紅 */
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); 
-    margin-bottom: 30px;
-    font-size: 2.5em;
-}
-
-/* 輸入框 */
-#question-input {
-    width: 90%;
-    padding: 12px;
-    margin-bottom: 20px;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    font-size: 1.1em;
-    text-align: center;
-}
-
-/* 按鈕 */
-#predict-button {
-    padding: 12px 25px;
-    background-color: #8b0000;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1em;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-}
-
-#predict-button:hover {
-    background-color: #a02a2a;
-}
-
-/* 結果區 (預言揭示區) */
-#result {
-    margin-top: 30px;
-    min-height: 60px;
-    font-size: 1.6em;
-    font-weight: bold;
-    font-style: italic; /* 預言感 */
-    color: #333;
-    padding: 20px;
-    
-    border: 3px solid #6a5acd; /* 魔法感的藍紫色邊框 */
-    background-color: #f7f7ff; /* 略微發光的背景 */
-    box-shadow: 0 0 10px rgba(106, 90, 205, 0.7); /* 發光效果 */
-
-    border-radius: 10px;
-    opacity: 0; 
-    transition: opacity 0.5s ease-in-out;
-}
-
-/* 加載動畫 */
-.loading-animation {
-    animation: pulse 0.5s infinite alternate;
-}
-
-@keyframes pulse {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Fighter Demo</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div class="container">
-    <h1>萬能預言家之書</h1>
-    <p>請在下方輸入你的問題：</p>
-    <input type="text" id="question-input" placeholder="例如：我會發財嗎？">
-
-    <button id="predict-button">詢問命運</button>
-
-    <div id="result">
+    <div class="game-ui">
+        <div class="health-container">
+            <div id="player1Health" class="health-bar player1-color"></div>
+        </div>
+        <div id="timer" class="timer">60</div>
+        <div class="health-container">
+            <div id="player2Health" class="health-bar player2-color"></div>
+        </div>
     </div>
-</div>
-
-<script src="script.js"></script>
+    
+    <canvas id="gameCanvas"></canvas>
+    
+    <script src="game.js"></script>
 </body>
 </html>
