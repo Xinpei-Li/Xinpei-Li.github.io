@@ -34,13 +34,11 @@ function loadImage(name, src) {
         }
     };
     img.src = src;
-    // 解決像素圖模糊問題
     ctx.imageSmoothingEnabled = false; 
-    img.style.imageRendering = 'pixelated';
     loadedImages[name] = img;
 }
 
-// **圖片載入：請確保路徑正確！**
+// **圖片載入：請檢查路徑 './assets/' 是否正確！**
 loadImage('player1_idle', './assets/player1_idle.png');
 loadImage('player2_idle', './assets/player2_idle.png');
 loadImage('player1_attack', './assets/player1_attack.png'); 
@@ -102,7 +100,7 @@ class Fighter {
                 this.height
             );
         } else {
-             // 圖片未載入時，退回繪製方塊
+             // 圖片未載入時，退回繪製方塊 (確保遊戲能執行)
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
@@ -147,7 +145,6 @@ class Fighter {
     attack() {
         if (!this.isAttacking) {
             this.isAttacking = true;
-            // 攻擊判定和動畫持續 100 毫秒
             setTimeout(() => {
                 this.isAttacking = false;
             }, 100);
@@ -226,10 +223,11 @@ function gameOver(winner) {
     gameActive = false;
     window.cancelAnimationFrame(animationFrameId); 
     
+    // 顯示 Game Over 訊息和重新開始按鈕
     gameOverlay.style.display = 'flex';
     gameMessage.textContent = 'GAME OVER: ' + winner;
-    startButton.style.display = 'none'; 
-    restartButton.style.display = 'block'; 
+    startButton.style.display = 'none'; // 隱藏開始按鈕
+    restartButton.style.display = 'block'; // 顯示重新開始按鈕
 }
 
 // --- 遊戲初始化和重設 ---
@@ -238,6 +236,7 @@ function initGame() {
     player2.reset();
     gameActive = true;
     
+    // 隱藏覆蓋層，開始遊戲
     gameOverlay.style.display = 'none';
     
     // 啟動遊戲循環
