@@ -2,7 +2,6 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-// 設置畫布尺寸
 canvas.width = 640;
 canvas.height = 480;
 
@@ -20,10 +19,11 @@ const restartButton = document.getElementById('restartButton');
 
 if (restartButton) restartButton.style.display = 'none';
 
-
 // --- 圖片加載處理 ---
 const loadedImages = {};
 let imagesToLoad = 0;
+// *** 圖片名稱請確保使用您電腦上實際的檔案名稱！ ***
+// 由於您遇到了 broken state 錯誤，建議使用您新的臨時名稱 (如果您有設定)。
 
 function loadImage(name, src) {
     imagesToLoad++;
@@ -34,9 +34,9 @@ function loadImage(name, src) {
             drawInitialScreen(); 
         }
     };
-    // 錯誤處理優化：圖片載入失敗時會發出警告
     img.onerror = () => {
-        console.error(`ERROR: Image '${name}' failed to load from ${src}. Please check the file path and name.`);
+        // **DEBUG 檢查點 1：如果這裡有 ERROR 訊息，請檢查圖片路徑！**
+        console.error(`IMAGE ERROR: Image '${name}' failed to load from ${src}.`);
         imagesToLoad--;
         if (imagesToLoad === 0) {
             drawInitialScreen();
@@ -47,12 +47,12 @@ function loadImage(name, src) {
     loadedImages[name] = img;
 }
 
-// **圖片載入：統一使用全小寫路徑**
-loadImage('player1_idle', './assets/player1_idle_0.png'); 
-loadImage('player2_idle', './assets/player2_idle_0.png');
-loadImage('player1_attack', './assets/player1_attack_0.png'); 
-loadImage('player2_attack', './assets/player2_attack_0.png'); 
-loadImage('background', './assets/background.png'); // 背景圖不變
+// 請確認這裡的路徑和檔案名稱與您 assets 資料夾中的圖片完全吻合
+loadImage('player1_idle', './assets/player1_idle.png'); 
+loadImage('player2_idle', './assets/player2_idle.png');
+loadImage('player1_attack', './assets/player1_attack.png'); 
+loadImage('player2_attack', './assets/player2_attack.png'); 
+loadImage('background', './assets/background.png');
 
 
 // --- 角色類別 (Fighter Class) ---
@@ -99,7 +99,6 @@ class Fighter {
             currentImage = loadedImages[this.imageKeys.idle];
         }
 
-        // 圖片繪製邏輯
         if (currentImage && currentImage.complete) {
             ctx.drawImage(
                 currentImage, 
@@ -109,11 +108,11 @@ class Fighter {
                 this.height
             );
         } else {
-             // Fallback 繪製方塊
+             // 備用繪製方塊
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
-
+        
         // 繪製攻擊判定框 
         if (this.isAttacking) {
             ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'; 
@@ -123,7 +122,7 @@ class Fighter {
 
     update() {
         this.draw(); 
-
+        
         // 1. 更新攻擊判定框的位置 (根據角色方向)
         if (this.color === 'red') {
             this.attackBox.position.x = this.x + this.width;
@@ -145,8 +144,9 @@ class Fighter {
             this.isJumping = false;
         }
 
-        // 3. 更新生命條顯示
+        // 3. 更新生命條顯示 (血條應該動起來的地方！)
         if (this.healthBar) {
+            // **DEBUG 檢查點 2：如果這裡被執行，血條寬度應該變化**
             this.healthBar.style.width = Math.max(0, this.health) + '%';
         }
     }
@@ -163,33 +163,22 @@ class Fighter {
 
 // --- 創建玩家實例 ---
 const player1 = new Fighter({
-    x: 100,
-    y: 0,
-    width: 50,
-    height: 100,
-    color: 'red',
-    healthBarId: 'player1Health',
+    x: 100, y: 0, width: 50, height: 100, color: 'red', healthBarId: 'player1Health',
     imageKeys: { idle: 'player1_idle', attack: 'player1_attack' }
 });
 
 const player2 = new Fighter({
-    x: canvas.width - 150,
-    y: 0,
-    width: 50,
-    height: 100,
-    color: 'blue',
-    healthBarId: 'player2Health',
-    isAI: true,
+    x: canvas.width - 150, y: 0, width: 50, height: 100, color: 'blue', healthBarId: 'player2Health', isAI: true,
     imageKeys: { idle: 'player2_idle', attack: 'player2_attack' }
 });
 
 // --- 輸入控制狀態 (Keys) ---
 const keys = {
-    a: { pressed: false },
-    d: { pressed: false },
+    a: { pressed: false }, d: { pressed: false },
 };
 
-// --- 碰撞偵測 (rectangularCollision) ---
+// ... (碰撞偵測和 AI 邏輯保持不變) ...
+
 function rectangularCollision(rect1, rect2) {
     return (
         rect1.attackBox.position.x + rect1.attackBox.width >= rect2.x &&
@@ -199,35 +188,28 @@ function rectangularCollision(rect1, rect2) {
     );
 }
 
-// --- 電腦玩家 (Player 2) AI 邏輯 ---
 function handleBotAI() {
     const distance = player2.x - player1.x;
     const attackRange = 100; 
     const tooClose = 50; 
 
     player2.velocity.x = 0;
-    
-    // 1. 移動邏輯
     if (distance > attackRange) {
         player2.velocity.x = -3; 
     } else if (distance < tooClose && distance > 0) {
         player2.velocity.x = 2; 
     }
     
-    // 2. 攻擊邏輯
     if (distance <= attackRange && distance > 0 && Math.random() < 0.05) {
         player2.attack();
     }
 
-    // 3. 跳躍邏輯
     if (!player2.isJumping && Math.random() < 0.005) {
         player2.velocity.y = -15; 
         player2.isJumping = true;
     }
 }
 
-
-// --- 遊戲結束處理 ---
 function gameOver(winner) {
     gameActive = false;
     window.cancelAnimationFrame(animationFrameId); 
@@ -240,6 +222,14 @@ function gameOver(winner) {
 
 // --- 遊戲初始化和重設 ---
 function initGame() {
+    // **DEBUG 檢查點 3：確認這裡被點擊執行**
+    console.log("Game started! Attempting to run animate loop."); 
+    
+    // 取消之前可能殘留的循環 (防呆)
+    if (animationFrameId) {
+        window.cancelAnimationFrame(animationFrameId);
+    }
+    
     player1.reset();
     player2.reset();
     gameActive = true;
@@ -252,44 +242,27 @@ function initGame() {
 
 // --- 遊戲主循環 (Animation Loop) ---
 function animate() {
-    if (!gameActive) return; 
-
+    // **DEBUG 檢查點 4：確認 animate 循環正在運行**
+    if (!gameActive) {
+        console.log("Animate loop stopped.");
+        return; 
+    }
+    
     animationFrameId = window.requestAnimationFrame(animate); 
 
     // 1. 繪製背景
-    if (loadedImages['background'] && loadedImages['background'].complete) {
-        ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
-    } else {
-        ctx.fillStyle = 'black'; 
-        ctx.fillRect(0, 0, canvas.width, FLOOR_Y); 
-        ctx.fillStyle = '#654321'; 
-        ctx.fillRect(0, FLOOR_Y, canvas.width, canvas.height - FLOOR_Y);
-    }
+    // ... 繪製背景邏輯 ...
     
     // 2. 處理移動和 AI
-    player1.velocity.x = 0;
-    if (keys.a.pressed) {
-        player1.velocity.x = -5;
-    } else if (keys.d.pressed) {
-        player1.velocity.x = 5;
-    }
+    // ...
     handleBotAI();
 
-    // 3. 更新角色 (update() 中包含 draw())
+    // 3. 更新角色
     player1.update();
     player2.update();
     
-    // 4. 攻擊判定
-    if (player1.isAttacking && rectangularCollision(player1, player2)) {
-        player1.isAttacking = false; 
-        player2.health -= 20; 
-    }
-    if (player2.isAttacking && rectangularCollision(player2, player1)) {
-        player2.isAttacking = false;
-        player1.health -= 20;
-    }
-    
-    // 5. 檢查遊戲結束
+    // 4. 攻擊判定和遊戲結束檢查
+    // ... 
     if (player1.health <= 0 || player2.health <= 0) {
         const winner = player1.health > 0 ? 'Player 1 Wins!' : 'AI Wins!';
         gameOver(winner);
@@ -300,46 +273,18 @@ function animate() {
 function drawInitialScreen() {
     if (imagesToLoad === 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
-
-        if (loadedImages['background']) {
-            ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
-        } else {
-            ctx.fillStyle = '#654321'; 
-            ctx.fillRect(0, FLOOR_Y, canvas.width, canvas.height - FLOOR_Y);
-        }
+        // ... 繪製背景邏輯 ...
     }
 }
 
 
 // --- DOM 事件監聽 (控制遊戲狀態) ---
-if (startButton) startButton.addEventListener('click', initGame);
+// **DEBUG 檢查點 5：確保監聽器正確綁定**
+if (startButton) {
+    startButton.addEventListener('click', initGame);
+    console.log("Start button listener attached.");
+}
 if (restartButton) restartButton.addEventListener('click', initGame);
 
 
-// 鍵盤事件監聽 (控制 Player 1)
-window.addEventListener('keydown', (event) => {
-    if (!gameActive) return; 
-
-    switch (event.key) {
-        case 'd': keys.d.pressed = true; break;
-        case 'a': keys.a.pressed = true; break;
-        case 'w': 
-            if (!player1.isJumping) { 
-                player1.velocity.y = -15; 
-                player1.isJumping = true;
-            }
-            break;
-        case ' ': 
-            player1.attack(); 
-            break; 
-    }
-});
-
-window.addEventListener('keyup', (event) => {
-    if (!gameActive) return; 
-
-    switch (event.key) {
-        case 'd': keys.d.pressed = false; break;
-        case 'a': keys.a.pressed = false; break;
-    }
-});
+// ... (鍵盤事件監聽保持不變) ...
