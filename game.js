@@ -34,7 +34,7 @@ function loadImage(name, src) {
             drawInitialScreen(); 
         }
     };
-    // **錯誤處理優化：圖片載入失敗時會發出警告**
+    // 錯誤處理優化：圖片載入失敗時會發出警告
     img.onerror = () => {
         console.error(`ERROR: Image '${name}' failed to load from ${src}. Please check the file path and name.`);
         imagesToLoad--;
@@ -47,8 +47,8 @@ function loadImage(name, src) {
     loadedImages[name] = img;
 }
 
-// **圖片載入：路徑為 './assets/'**
-loadImage('player1_idle', './assets/player1_idle.png');
+// **圖片載入：統一使用全小寫路徑**
+loadImage('player1_idle', './assets/player1_idle.png'); 
 loadImage('player2_idle', './assets/player2_idle.png');
 loadImage('player1_attack', './assets/player1_attack.png'); 
 loadImage('player2_attack', './assets/player2_attack.png'); 
@@ -99,7 +99,7 @@ class Fighter {
             currentImage = loadedImages[this.imageKeys.idle];
         }
 
-        // **圖片繪製邏輯**
+        // 圖片繪製邏輯
         if (currentImage && currentImage.complete) {
             ctx.drawImage(
                 currentImage, 
@@ -109,7 +109,7 @@ class Fighter {
                 this.height
             );
         } else {
-             // **Fallback 繪製方塊**
+             // Fallback 繪製方塊
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
@@ -122,7 +122,7 @@ class Fighter {
     }
 
     update() {
-        this.draw(); // 讓角色在更新後繪製 (這是為了在 animate() 中簡化流程)
+        this.draw(); 
 
         // 1. 更新攻擊判定框的位置 (根據角色方向)
         if (this.color === 'red') {
