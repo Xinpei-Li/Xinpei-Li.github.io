@@ -10,8 +10,8 @@ const GRAVITY = 0.7;
 const FLOOR_Y = canvas.height - 50; 
 
 // --- 遊戲狀態與 DOM 元素 ---
-let gameActive = false; // 遊戲是否正在進行
-let animationFrameId;   // 動畫循環 ID
+let gameActive = false; 
+let animationFrameId;   
 
 const gameOverlay = document.getElementById('gameOverlay');
 const gameMessage = document.getElementById('gameMessage');
@@ -34,8 +34,9 @@ function loadImage(name, src) {
             drawInitialScreen(); 
         }
     };
+    // **錯誤處理優化：圖片載入失敗時會發出警告**
     img.onerror = () => {
-        console.warn(`Warning: Image ${src} failed to load. Using fallback color.`);
+        console.error(`ERROR: Image '${name}' failed to load from ${src}. Please check the file path and name.`);
         imagesToLoad--;
         if (imagesToLoad === 0) {
             drawInitialScreen();
@@ -46,7 +47,7 @@ function loadImage(name, src) {
     loadedImages[name] = img;
 }
 
-// 圖片載入：請檢查路徑 './assets/' 是否正確！
+// **圖片載入：路徑為 './assets/'**
 loadImage('player1_idle', './assets/player1_idle.png');
 loadImage('player2_idle', './assets/player2_idle.png');
 loadImage('player1_attack', './assets/player1_attack.png'); 
@@ -98,6 +99,7 @@ class Fighter {
             currentImage = loadedImages[this.imageKeys.idle];
         }
 
+        // **圖片繪製邏輯**
         if (currentImage && currentImage.complete) {
             ctx.drawImage(
                 currentImage, 
@@ -107,7 +109,7 @@ class Fighter {
                 this.height
             );
         } else {
-             // 圖片未載入時，退回繪製方塊 (Fallback)
+             // **Fallback 繪製方塊**
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
@@ -120,7 +122,7 @@ class Fighter {
     }
 
     update() {
-        // *** 注意：這裡只保留物理和狀態更新。繪圖會在 animate() 中調用 draw()。 ***
+        this.draw(); // 讓角色在更新後繪製 (這是為了在 animate() 中簡化流程)
 
         // 1. 更新攻擊判定框的位置 (根據角色方向)
         if (this.color === 'red') {
@@ -230,7 +232,6 @@ function gameOver(winner) {
     gameActive = false;
     window.cancelAnimationFrame(animationFrameId); 
     
-    // 顯示 Game Over 訊息和重新開始按鈕
     gameOverlay.style.display = 'flex';
     gameMessage.textContent = 'GAME OVER: ' + winner;
     startButton.style.display = 'none'; 
@@ -243,7 +244,6 @@ function initGame() {
     player2.reset();
     gameActive = true;
     
-    // 隱藏覆蓋層，開始遊戲
     gameOverlay.style.display = 'none';
     
     // 啟動遊戲循環
@@ -256,7 +256,7 @@ function animate() {
 
     animationFrameId = window.requestAnimationFrame(animate); 
 
-    // 1. 繪製背景 (不論遊戲狀態如何都繪製背景)
+    // 1. 繪製背景
     if (loadedImages['background'] && loadedImages['background'].complete) {
         ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
     } else {
@@ -275,15 +275,11 @@ function animate() {
     }
     handleBotAI();
 
-    // 3. 更新角色 **(狀態和位置)**
+    // 3. 更新角色 (update() 中包含 draw())
     player1.update();
     player2.update();
-
-    // 4. 繪製角色 **(在更新後繪製)**
-    player1.draw(); 
-    player2.draw();
-
-    // 5. 攻擊判定
+    
+    // 4. 攻擊判定
     if (player1.isAttacking && rectangularCollision(player1, player2)) {
         player1.isAttacking = false; 
         player2.health -= 20; 
@@ -293,30 +289,24 @@ function animate() {
         player1.health -= 20;
     }
     
-    // 6. 檢查遊戲結束
+    // 5. 檢查遊戲結束
     if (player1.health <= 0 || player2.health <= 0) {
         const winner = player1.health > 0 ? 'Player 1 Wins!' : 'AI Wins!';
         gameOver(winner);
     }
 }
 
-// --- 初始畫面繪製 (只繪製背景，不繪製角色) ---
+// --- 初始畫面繪製 (只繪製背景) ---
 function drawInitialScreen() {
     if (imagesToLoad === 0) {
-        // 清空畫布
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
-        // 繪製初始背景
         if (loadedImages['background']) {
             ctx.drawImage(loadedImages['background'], 0, 0, canvas.width, canvas.height);
         } else {
-            // 繪製備用地面
             ctx.fillStyle = '#654321'; 
             ctx.fillRect(0, FLOOR_Y, canvas.width, canvas.height - FLOOR_Y);
         }
-        
-        // **!!! 移除 player1.draw() 和 player2.draw() !!!**
-        // 角色將只在 animate() 啟動後才繪製。
     }
 }
 
