@@ -2,42 +2,22 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>簡易格鬥遊戲</title>
-    <link rel="stylesheet" href="style.css">
+    <title>像素跑酷寶庫（Pixel Parkour Vault）</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #333; /* 暗色背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    
 </head>
 <body>
-
-    <div id="game-container">
-        
-        <div id="start-screen">
-            <h1>簡易格鬥遊戲</h1>
-            <button id="start-button">Start</button>
-        </div>
-        
-        <div id="countdown"></div>
-
-        <div id="status-bar">
-            <div id="player-stats">
-                <h3>玩家 (Player)</h3>
-                <div class="health-bar-container">
-                    <div id="player-health-bar" class="health-bar"></div>
-                </div>
-            </div>
-
-            <div id="timer">60</div> 
-            
-            <div id="enemy-stats">
-                <h3>敵人 (Enemy)</h3>
-                <div class="health-bar-container">
-                    <div id="enemy-health-bar" class="health-bar"></div>
-                </div>
-            </div>
-        </div>
-
-        <div id="player" class="character"></div>
-        <div id="enemy" class="character"></div> </div>
-
-    <script src="script.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
