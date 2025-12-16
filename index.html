@@ -1,46 +1,43 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Combo: Pixel Fighter</title>
+    <title>簡易格鬥遊戲</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-ui">
-        <div class="health-container">
-            <div id="player1Health" class="health-bar player1-color"></div>
+
+    <div id="game-container">
+        
+        <div id="start-screen">
+            <h1>簡易格鬥遊戲</h1>
+            <button id="start-button">Start</button>
         </div>
-        <div id="timer" class="timer">60</div>
-        <div class="health-container">
-            <div id="player2Health" class="health-bar player2-color"></div>
+        
+        <div id="countdown"></div>
+
+        <div id="status-bar">
+            <div id="player-stats">
+                <h3>玩家 (Player)</h3>
+                <div class="health-bar-container">
+                    <div id="player-health-bar" class="health-bar"></div>
+                </div>
+            </div>
+
+            <div id="enemy-stats">
+                <h3>敵人 (Enemy)</h3>
+                <div class="health-bar-container">
+                    <div id="enemy-health-bar" class="health-bar"></div>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <div id="gameOverlay">
-        <div id="gameMessage">Pixel Fighter</div>
-        <button id="startButton">開始遊戲 (Start)</button>
-        <button id="restartButton" style="display: none;">重新開始 (Restart)</button>
+
+        <div id="player" class="character"></div>
+        <div id="enemy" class="character"></div>
+        
     </div>
 
-    <canvas id="gameCanvas"></canvas>
-    
-    <div class="controls-guide">
-        <h3 class="player-title player1-color-text">玩家 1 (您)</h3>
-        <div class="key-group">
-            <span class="key-label">移動:</span>
-            <span class="key-btn">A</span><span class="key-btn">D</span>
-        </div>
-        <div class="key-group">
-            <span class="key-label">跳躍:</span>
-            <span class="key-btn">W</span>
-        </div>
-        <div class="key-group">
-            <span class="key-label">攻擊:</span>
-            <span class="key-btn key-wide">Space</span>
-        </div>
-    </div>
-    
-    <script src="game.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
