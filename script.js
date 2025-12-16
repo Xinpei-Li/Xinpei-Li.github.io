@@ -3,57 +3,59 @@ const gameContainer = document.getElementById('game-container');
 const startScreen = document.getElementById('start-screen');
 const startButton = document.getElementById('start-button');
 const countdownDisplay = document.getElementById('countdown');
+const timerDisplay = document.getElementById('timer'); 
 
-// 常數
-const GAME_WIDTH = 800; // 遊戲容器的寬度
-const GAME_HEIGHT = 400; // 遊戲容器的高度
+// 常數 (現在動態獲取寬高，雖然在 CSS 中我們使用了 100vw/100vh)
+// 但我們在 JS 中需要知道這些邊界
+const GAME_WIDTH = window.innerWidth;
+const GAME_HEIGHT = window.innerHeight;
 
 // 遊戲狀態追蹤
 let gameState = 'waiting'; 
-let gameLoopId; // requestAnimationFrame 的 ID
+let gameLoopId; 
+let gameTime = 60; // 初始遊戲時間
+let timerIntervalId;
 
 // ==========================================
 // 1. 角色類別 (Character Class) 骨架
 // ==========================================
 
 class Character {
-    constructor(elementId, x, y, health) {
+    constructor(elementId, xPercent, y, health) {
         this.element = document.getElementById(elementId);
         
         // 核心屬性
         this.width = 50;
         this.height = 80;
-        this.position = { x: x, y: y }; // x: 橫向位置, y: 縱向位置 (從底部開始算)
-        this.velocity = { x: 0, y: 0 }; // x: 水平速度, y: 垂直速度 (跳躍/重力)
+        // x: 使用百分比來計算初始位置，這樣在全螢幕下也能正確定位
+        this.position = { x: (GAME_WIDTH * xPercent) / 100, y: y }; 
+        this.velocity = { x: 0, y: 0 }; 
         this.health = health;
         
         // 狀態
         this.isAttacking = false;
         this.isJumping = false;
 
-        // 首次渲染
         this.draw();
     }
 
     // 繪製/更新角色在畫面上的位置
     draw() {
-        // 更新 DOM 元素的位置 (CSS 的 left 和 bottom 屬性)
         this.element.style.left = this.position.x + 'px';
         this.element.style.bottom = this.position.y + 'px';
     }
 
-    // 更新角色狀態和位置 (將在 gameLoop 中被呼叫)
+    // 更新角色狀態和位置 (將來實作移動、重力、跳躍、攻擊)
     update() {
-        // *** 這裡將是實作移動、重力、跳躍、攻擊邏輯的地方 ***
-
-        // 呼叫 draw 來將位置變化渲染到畫面上
+        // ... (這裡將是實作移動邏輯的地方) ...
         this.draw();
     }
 }
 
-// 建立玩家和敵人實例
-let player = new Character('player', 100, 0, 100); 
-let enemy = new Character('enemy', GAME_WIDTH - 150, 0, 100); 
+// 建立玩家和敵人實例 (使用百分比設定初始 X 軸位置)
+// 玩家在左邊 10%，敵人距離右邊 10% (即 90%)
+let player = new Character('player', 10, 0, 100); 
+let enemy = new Character('enemy', 90, 0, 100); 
 
 
 // ==========================================
@@ -61,24 +63,16 @@ let enemy = new Character('enemy', GAME_WIDTH - 150, 0, 100);
 // ==========================================
 
 function gameLoop() {
-    // 只有在 'playing' 狀態下才執行邏輯
     if (gameState === 'playing') {
-        
-        // 1. 更新所有角色狀態
         player.update();
         enemy.update();
-        
-        // 2. 處理碰撞和傷害判定 (之後實作)
-        
     }
-
-    // 不斷要求瀏覽器在下一幀重繪時呼叫 gameLoop
     gameLoopId = requestAnimationFrame(gameLoop);
 }
 
 
 // ==========================================
-// 3. 遊戲流程控制與啟動
+// 3. 遊戲流程控制與啟動 (含計時器邏輯)
 // ==========================================
 
 startButton.addEventListener('click', () => {
@@ -95,7 +89,6 @@ function startCountdown() {
     const intervalId = setInterval(() => {
         countdownDisplay.textContent = count > 0 ? count : 'GO!';
         
-        // 應用動畫
         countdownDisplay.classList.remove('countdown-active');
         void countdownDisplay.offsetWidth; 
         countdownDisplay.classList.add('countdown-active');
@@ -108,13 +101,12 @@ function startCountdown() {
             countdownDisplay.style.opacity = 0;
             countdownDisplay.textContent = '';
             
-            // GO! 之後延遲 1 秒後開始遊戲
             setTimeout(() => {
                 startGame();
             }, 1000); 
         }
 
-    }, 1000); // 每 1 秒執行一次
+    }, 1000); 
 }
 
 function startGame() {
@@ -123,4 +115,25 @@ function startGame() {
     
     // 啟動遊戲核心迴圈
     gameLoopId = requestAnimationFrame(gameLoop);
+    
+    // 啟動回合計時器
+    startTimer(); 
+}
+
+function startTimer() {
+    // 確保計時器ID是空的，避免重複啟動
+    if (timerIntervalId) clearInterval(timerIntervalId);
+    
+    timerIntervalId = setInterval(() => {
+        if (gameTime > 0) {
+            gameTime -= 1;
+            timerDisplay.textContent = gameTime;
+        } else {
+            // 時間歸零，遊戲結束
+            clearInterval(timerIntervalId);
+            gameState = 'over';
+            console.log("時間到！遊戲結束。");
+            // 這裡將來會加入遊戲結束的邏輯
+        }
+    }, 1000);
 }
