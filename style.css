@@ -1,33 +1,31 @@
 /* ---------------------------------------------------- */
-/* 1. 全螢幕設定：讓遊戲容器佔滿整個瀏覽器視窗 */
+/* 1. 全螢幕設定 */
 /* ---------------------------------------------------- */
 body {
     margin: 0;
-    /* 移除置中相關的 flexbox 樣式 */
-    /* min-height: 100vh; */
-    background-color: #333; /* 網頁背景色 */
+    background-color: #333;
 }
 
-/* 遊戲主容器 */
 #game-container {
-    width: 100vw; /* 佔滿視窗寬度 */
-    height: 100vh; /* 佔滿視窗高度 */
+    width: 100vw; 
+    height: 100vh; 
     background-color: #4CAF50; /* 綠色背景 */
-    border: none; /* 全螢幕模式下移除邊框 */
+    border: none; 
     position: relative; 
     overflow: hidden;
 }
 
 /* ---------------------------------------------------- */
-/* 2. UI 狀態欄 (血條/計時器) 樣式 */
+/* 2. UI 狀態欄 (血條/計時器) 樣式 - 放大血條 */
 /* ---------------------------------------------------- */
 #status-bar {
     position: absolute;
-    top: 20px; /* 距離頂部增加一些空間 */
+    top: 20px; 
     width: 100%;
     display: flex;
-    justify-content: space-around; /* 讓血條和計時器均勻分佈 */
-    padding: 0 5%; /* 左右留白 */
+    justify-content: space-between; /* 使用 space-between 讓兩邊血條靠邊 */
+    align-items: center; /* 垂直置中 */
+    padding: 0 5%; 
     box-sizing: border-box;
     z-index: 10; 
     color: white;
@@ -35,16 +33,16 @@ body {
 
 #player-stats, #enemy-stats {
     text-align: center;
-    /* 讓狀態欄在全螢幕下更顯眼 */
     font-size: 1.2em; 
 }
 
+/* 血條容器：拉長並加粗 */
 .health-bar-container {
-    width: 350px; /* 增加血條長度 */
-    max-width: 40vw; /* 確保在大螢幕上不會過長 */
-    height: 30px; /* 增加血條高度 */
+    width: 450px; /* **調整：血條長度增加** */
+    max-width: 45vw; 
+    height: 40px; /* **調整：血條高度增加** */
     background-color: #333;
-    border: 3px solid white;
+    border: 5px solid white; /* **調整：邊框加粗** */
 }
 
 .health-bar {
@@ -58,38 +56,37 @@ body {
 #timer {
     background-color: black;
     color: white;
-    font-size: 40px; /* 放大計時器數字 */
+    font-size: 40px; 
     font-weight: bold;
     border: 5px solid gold; 
     padding: 5px 15px;
     border-radius: 8px;
+    /* 調整高度以匹配血條容器的高度 */
+    height: 50px; 
     display: flex;
     align-items: center; 
-    height: 50px; 
 }
 
 
 /* ---------------------------------------------------- */
-/* 3. 角色與通用樣式 */
+/* 3. 角色與通用樣式 - 放大角色方塊 */
 /* ---------------------------------------------------- */
-/* 角色通用樣式 (方塊顯示) */
 .character {
-    width: 50px;
-    height: 80px;
+    width: 80px; /* **調整：角色寬度放大** */
+    height: 120px; /* **調整：角色高度放大** */
     position: absolute; 
-    /* 讓角色看起來站在畫面的底部 */
     bottom: 0; 
 }
 
 /* 玩家 specific 樣式 (藍色方塊) */
 #player {
-    left: 10%; /* 初始位置調整為總寬度的 10% */
+    left: 10%; 
     background-color: royalblue;
 }
 
 /* 敵人 specific 樣式 (紅色方塊) */
 #enemy {
-    right: 10%; /* 初始位置調整為總寬度的 10% */
+    right: 10%; 
     background-color: darkred;
 }
 
@@ -107,7 +104,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.9); /* 更深的遮罩 */
+    background-color: rgba(0, 0, 0, 0.9);
     color: white;
     z-index: 20;
 }
@@ -128,13 +125,12 @@ body {
     background-color: #ff6642;
 }
 
-/* 倒數計時器樣式 */
 #countdown {
     position: absolute;
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    font-size: 150px; /* 倒數數字更大 */
+    font-size: 150px; 
     font-weight: bold;
     color: yellow;
     text-shadow: 0 0 10px black, 0 0 20px red;
@@ -142,7 +138,6 @@ body {
     opacity: 0; 
 }
 
-/* 倒數計時的動畫效果: 由小到大 */
 @keyframes pop-in {
     0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
     50% { transform: translate(-50%, -50%) scale(1.4); opacity: 1; }
