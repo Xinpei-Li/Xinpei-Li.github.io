@@ -12,7 +12,7 @@ body {
 #game-container {
     width: 800px; /* 遊戲寬度 */
     height: 400px; /* 遊戲高度 */
-    background-color: #4CAF50; /* **變更：將背景色設為綠色** */
+    background-color: #4CAF50; /* **綠色背景** */
     border: 5px solid #000;
     position: relative; 
     overflow: hidden;
@@ -54,7 +54,7 @@ body {
     transition: width 0.3s ease-out;
 }
 
-/* 角色通用樣式 */
+/* 角色通用樣式 (方塊顯示) */
 .character {
     width: 50px;
     height: 80px;
@@ -62,13 +62,13 @@ body {
     bottom: 0; 
 }
 
-/* 玩家 specific 樣式 (方塊顯示) */
+/* 玩家 specific 樣式 (藍色方塊) */
 #player {
     left: 100px; 
     background-color: royalblue;
 }
 
-/* 敵人 specific 樣式 (方塊顯示) */
+/* 敵人 specific 樣式 (紅色方塊) */
 #enemy {
     right: 100px; 
     background-color: darkred;
@@ -92,12 +92,12 @@ body {
 }
 
 #start-button {
-    padding: 15px 40px; /* **變更：增加內邊距以放大按鈕** */
-    font-size: 32px; /* **變更：放大字體** */
+    padding: 15px 40px; /* **放大按鈕** */
+    font-size: 32px; /* **放大字體** */
     cursor: pointer;
     background-color: #e6522e;
     color: white;
-    border: 3px solid white; /* 增加邊框讓按鈕更突出 */
+    border: 3px solid white; 
     border-radius: 8px;
     margin-top: 30px;
     transition: background-color 0.2s;
@@ -113,9 +113,9 @@ body {
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-    font-size: 120px; /* **變更：字體稍微放大** */
+    font-size: 120px; /* **倒數數字放大** */
     font-weight: bold;
-    color: yellow; /* 變更為黃色讓倒數更顯眼 */
+    color: yellow;
     text-shadow: 0 0 10px black, 0 0 20px red;
     z-index: 30; 
     opacity: 0; 
