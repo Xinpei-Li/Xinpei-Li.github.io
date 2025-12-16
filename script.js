@@ -10,11 +10,10 @@ const GAME_HEIGHT = 400; // 遊戲容器的高度
 
 // 遊戲狀態追蹤
 let gameState = 'waiting'; 
-let gameLoopId; // 用於儲存 requestAnimationFrame 的 ID
+let gameLoopId; // requestAnimationFrame 的 ID
 
 // ==========================================
 // 1. 角色類別 (Character Class) 骨架
-// 這是我們建立玩家和敵人物件的藍圖
 // ==========================================
 
 class Character {
@@ -53,13 +52,12 @@ class Character {
 }
 
 // 建立玩家和敵人實例
-let player = new Character('player', 100, 0, 100); // x=100, y=0 (在地面上), 100HP
-let enemy = new Character('enemy', GAME_WIDTH - 150, 0, 100); // x=650, y=0, 100HP
+let player = new Character('player', 100, 0, 100); 
+let enemy = new Character('enemy', GAME_WIDTH - 150, 0, 100); 
 
 
 // ==========================================
 // 2. 遊戲迴圈 (Game Loop) 骨架
-// 這是遊戲的核心，不斷更新所有物件的狀態
 // ==========================================
 
 function gameLoop() {
@@ -72,7 +70,6 @@ function gameLoop() {
         
         // 2. 處理碰撞和傷害判定 (之後實作)
         
-        // 3. 檢查勝負條件 (之後實作)
     }
 
     // 不斷要求瀏覽器在下一幀重繪時呼叫 gameLoop
@@ -111,7 +108,7 @@ function startCountdown() {
             countdownDisplay.style.opacity = 0;
             countdownDisplay.textContent = '';
             
-            // GO! 之後延遲 1 秒後開始遊戲 (您的要求)
+            // GO! 之後延遲 1 秒後開始遊戲
             setTimeout(() => {
                 startGame();
             }, 1000); 
@@ -126,11 +123,4 @@ function startGame() {
     
     // 啟動遊戲核心迴圈
     gameLoopId = requestAnimationFrame(gameLoop);
-    
-    // 我們需要確保 player 和 enemy 已經被正確建立 (目前已在檔案開頭建立)
 }
-
-// ------------------------------------------
-// 現在的遊戲已經可以運行流程，但角色不會動。
-// 下一個步驟是：在 player.update() 內加入移動邏輯。
-// ------------------------------------------
