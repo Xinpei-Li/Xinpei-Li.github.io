@@ -1,155 +1,130 @@
+/* 重置基本樣式，讓遊戲畫面更乾淨 */
 body {
-    background-color: #222; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
     margin: 0;
-    font-family: sans-serif;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #333; /* 網頁背景色 */
 }
 
-/* 遊戲畫布 */
-#gameCanvas {
-    background-color: #4CAF50; /* 備用背景色 */
-    border: 5px solid #333;
-    display: block;
+/* 遊戲主容器 */
+#game-container {
+    width: 800px; /* 遊戲寬度 */
+    height: 400px; /* 遊戲高度 */
+    background-color: #555;
+    border: 5px solid #000;
+    position: relative; /* 關鍵：所有子元素絕對定位的參考點 */
+    overflow: hidden;
+
+    /* ========== 背景圖片樣式 (可自行替換) ========== */
+    /* 如果您要使用自己的圖片，請將圖片放到專案資料夾並取消註解下方三行
+    background-image: url('assets/stage-background.png'); 
+    background-size: cover; 
+    background-position: center bottom;
+    */
 }
 
-/* 遊戲介面 (UI) */
-.game-ui {
+/* 角色狀態欄 (血條顯示區) */
+#status-bar {
+    position: absolute;
+    top: 10px;
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    width: 640px; /* 與 canvas 寬度一致 */
-    margin-bottom: 10px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 10; 
+    color: white;
 }
 
-.health-container {
-    width: 250px;
-    height: 30px;
-    background-color: #888;
-    border: 2px solid #fff;
+#player-stats, #enemy-stats {
+    text-align: center;
+}
+
+.health-bar-container {
+    width: 300px;
+    height: 20px;
+    background-color: #333;
+    border: 2px solid white;
 }
 
 .health-bar {
     height: 100%;
-    transition: width 0.3s ease; 
+    width: 100%; /* 初始為 100% 滿血 */
+    background-color: red;
+    transition: width 0.3s ease-out;
 }
 
-.player1-color {
-    background-color: #f44336; /* 紅色 */
-    float: left;
+/* 角色通用樣式 */
+.character {
+    width: 50px;
+    height: 80px;
+    position: absolute; /* 關鍵：讓角色可以自由移動 */
+    bottom: 0; /* 讓角色從底部開始 */
 }
 
-.player2-color {
-    background-color: #2196F3; /* 藍色 */
-    float: right;
+/* 玩家 specific 樣式 */
+#player {
+    left: 100px; /* 初始位置 */
+    background-color: royalblue;
 }
 
-/* 確保玩家 2 的血條從右邊減少 */
-.game-ui > .health-container:nth-child(3) > .health-bar {
-    float: right;
+/* 敵人 specific 樣式 */
+#enemy {
+    right: 100px; /* 初始位置 */
+    background-color: darkred;
 }
 
-.timer {
-    background-color: #fff;
-    color: #333;
-    font-size: 24px;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
 
-/* --- 遊戲狀態覆蓋層樣式 (Start/GameOver) --- */
-#gameOverlay {
+/* *** 開始畫面樣式 *** */
+#start-screen {
     position: absolute;
     top: 0;
     left: 0;
-    width: 640px; 
-    height: 480px; 
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.85); 
-    z-index: 10; 
-}
-
-#gameMessage {
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
     color: white;
-    font-size: 36px;
-    margin-bottom: 20px;
-    font-weight: bold;
-    text-shadow: 2px 2px #f44336; 
+    z-index: 20;
 }
 
-#startButton, #restartButton {
-    padding: 10px 20px;
-    font-size: 18px;
+#start-button {
+    padding: 10px 30px;
+    font-size: 24px;
     cursor: pointer;
-    background-color: #f44336;
+    background-color: #e6522e;
     color: white;
-    border: 3px solid white;
+    border: none;
     border-radius: 5px;
-    transition: background-color 0.2s;
-}
-
-#startButton:hover, #restartButton:hover {
-    background-color: #d32f2f;
-}
-
-/* --- 操作說明樣式 --- */
-
-.controls-guide {
     margin-top: 20px;
-    padding: 15px 30px;
-    border: 2px solid #555;
-    background-color: #333;
-    color: #fff;
-    border-radius: 8px;
-    text-align: center;
 }
 
-.player-title {
-    margin-top: 0;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-}
-
-.player1-color-text {
-    color: #f44336; 
-}
-
-.key-group {
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px; 
-}
-
-.key-label {
+/* *** 倒數計時器樣式 *** */
+#countdown {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 100px;
     font-weight: bold;
-    margin-right: 5px;
-    min-width: 60px; 
-    text-align: left;
+    color: white;
+    text-shadow: 0 0 10px black;
+    z-index: 30; 
+    opacity: 0; /* 初始隱藏 */
 }
 
-.key-btn {
-    display: inline-block;
-    padding: 5px 10px;
-    background-color: #555;
-    border: 1px solid #777;
-    border-radius: 4px;
-    font-family: monospace; 
-    font-weight: bold;
-    box-shadow: 0 3px #111; 
+/* 倒數計時的動畫效果: 由小到大 */
+@keyframes pop-in {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
 }
 
-.key-btn:active {
-    box-shadow: 0 1px #111;
-    transform: translateY(2px); 
-}
-
-.key-wide {
-    min-width: 50px; 
+.countdown-active {
+    animation: pop-in 1s ease-in-out; 
 }
