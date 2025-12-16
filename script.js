@@ -4,11 +4,13 @@ const startScreen = document.getElementById('start-screen');
 const startButton = document.getElementById('start-button');
 const countdownDisplay = document.getElementById('countdown');
 const timerDisplay = document.getElementById('timer'); 
+const playerHealthBar = document.getElementById('player-health-bar'); 
+const enemyHealthBar = document.getElementById('enemy-health-bar'); // 恢復敵人的血條元素
 
-// 常數 (現在動態獲取寬高，雖然在 CSS 中我們使用了 100vw/100vh)
-// 但我們在 JS 中需要知道這些邊界
+// 常數
 const GAME_WIDTH = window.innerWidth;
 const GAME_HEIGHT = window.innerHeight;
+const GROUND_LEVEL = 0; // 地面 Y 座標
 
 // 遊戲狀態追蹤
 let gameState = 'waiting'; 
@@ -17,29 +19,27 @@ let gameTime = 60; // 初始遊戲時間
 let timerIntervalId;
 
 // ==========================================
-// 1. 角色類別 (Character Class) 骨架
+// 1. 角色類別 (Character Class)
 // ==========================================
 
 class Character {
     constructor(elementId, xPercent, y, health) {
         this.element = document.getElementById(elementId);
         
-        // 核心屬性
-        this.width = 50;
-        this.height = 80;
-        // x: 使用百分比來計算初始位置，這樣在全螢幕下也能正確定位
+        // 核心屬性 (尺寸已在 CSS 調整為 80x120)
+        this.width = 80;
+        this.height = 120;
+        
         this.position = { x: (GAME_WIDTH * xPercent) / 100, y: y }; 
         this.velocity = { x: 0, y: 0 }; 
         this.health = health;
         
-        // 狀態
         this.isAttacking = false;
         this.isJumping = false;
-
+        
         this.draw();
     }
 
-    // 繪製/更新角色在畫面上的位置
     draw() {
         this.element.style.left = this.position.x + 'px';
         this.element.style.bottom = this.position.y + 'px';
@@ -48,24 +48,24 @@ class Character {
     // 更新角色狀態和位置 (將來實作移動、重力、跳躍、攻擊)
     update() {
         // ... (這裡將是實作移動邏輯的地方) ...
+        
         this.draw();
     }
 }
 
-// 建立玩家和敵人實例 (使用百分比設定初始 X 軸位置)
-// 玩家在左邊 10%，敵人距離右邊 10% (即 90%)
-let player = new Character('player', 10, 0, 100); 
-let enemy = new Character('enemy', 90, 0, 100); 
+// 建立玩家和敵人實例
+let player = new Character('player', 10, GROUND_LEVEL, 100); 
+let enemy = new Character('enemy', 90, GROUND_LEVEL, 100); // 敵人已恢復
 
 
 // ==========================================
-// 2. 遊戲迴圈 (Game Loop) 骨架
+// 2. 遊戲迴圈 (Game Loop) 
 // ==========================================
 
 function gameLoop() {
     if (gameState === 'playing') {
         player.update();
-        enemy.update();
+        enemy.update(); // 恢復敵人更新
     }
     gameLoopId = requestAnimationFrame(gameLoop);
 }
@@ -113,15 +113,11 @@ function startGame() {
     console.log("遊戲正式開始！");
     gameState = 'playing';
     
-    // 啟動遊戲核心迴圈
     gameLoopId = requestAnimationFrame(gameLoop);
-    
-    // 啟動回合計時器
     startTimer(); 
 }
 
 function startTimer() {
-    // 確保計時器ID是空的，避免重複啟動
     if (timerIntervalId) clearInterval(timerIntervalId);
     
     timerIntervalId = setInterval(() => {
@@ -129,11 +125,9 @@ function startTimer() {
             gameTime -= 1;
             timerDisplay.textContent = gameTime;
         } else {
-            // 時間歸零，遊戲結束
             clearInterval(timerIntervalId);
             gameState = 'over';
             console.log("時間到！遊戲結束。");
-            // 這裡將來會加入遊戲結束的邏輯
         }
     }, 1000);
 }
