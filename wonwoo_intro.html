@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 成員介紹 - Wonwoo</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (Wonwoo：紫色/黑貓主題) --- */
+        :root {
+            /* 官方應援色 */
+            --color-rose-quartz: #FFC2C1; 
+            --color-serenity: #A2D4F0;   
+            
+            /* Wonwoo 主題配色 (深邃紫) */
+            --color-wonwoo-main: #E6E6FA; /* 淺紫丁香色 (漸層起點) */
+            --color-wonwoo-accent: #8A2BE2; /* 深邃藍紫色 (強調色/漸層終點) */
+            --color-light-bg: #FFFFFF;   /* 純白色背景 */
+            --color-dark-text: #2c3e50;  /* 深藍灰文字 */
+            --color-light-text: #4a4a4a; /* 略淺灰文字 */
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg); 
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        /* 內容容器 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            /* 頂部邊框使用深紫色 */
+            border-top: 8px solid var(--color-wonwoo-accent); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-rose-quartz); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-serenity); 
+        }
+
+        /* 頂部資訊區塊 (Header) - 紫色漸變 + 黑貓 */
+        .member-header {
+            padding: 40px 50px;
+            /* 淺紫丁香到深邃藍紫色的漸變 */
+            background: linear-gradient(90deg, var(--color-wonwoo-main), var(--color-wonwoo-accent)); 
+            /* 標題文字使用白色以確保在深紫色背景上清晰可見 */
+            color: white; 
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 黑貓 emoji 樣式 - 標準化尺寸和透明度 */
+        .member-header::before,
+        .member-header::after {
+            content: "🐈‍⬛"; /* 黑貓 emoji */
+            position: absolute;
+            transition: all 0.5s ease;
+            /* 深色背景下使用白色陰影以增加可讀性 */
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)); 
+            z-index: 5; /* 確保在背景之上，文字之下 */
+        }
+
+        /* 第一隻黑貓位置 (左側) - 標準化設定 */
+        .member-header::before {
+            top: 25px;
+            left: 8%;
+            font-size: 2.8em; 
+            opacity: 0.8; 
+            transform: rotate(-5deg);
+        }
+
+        /* 第二隻黑貓位置 (右側) - 標準化設定 (Hoshi 最後指定的參數) */
+        .member-header::after {
+            bottom: 10px;
+            right: 8%; /* Hoshi 指令：right 8% */
+            font-size: 2.5em; /* Hoshi 指令：font-size 2.5em */
+            opacity: 0.7; /* Hoshi 指令：opacity 0.7 */
+            transform: rotate(10deg);
+        }
+
+        /* 確保標題和副標題在 emoji 上層 */
+        .member-header h1, .member-header p {
+            position: relative; 
+            z-index: 10; 
+            /* 在深色背景上，文字需要有清晰度，可以考慮淺色文字陰影 */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); 
+        }
+
+        .member-header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .member-header p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* 核心內容 (圖片與資料) */
+        .member-body {
+            display: flex;
+            padding: 50px;
+            gap: 40px;
+        }
+        
+        /* 圖片容器 */
+        .member-photo-box {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .member-photo-box img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            /* 邊框使用深紫色 */
+            border: 6px solid var(--color-wonwoo-accent); 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 基本資料 */
+        .member-info {
+            flex-grow: 1;
+        }
+        
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-dark-text); 
+            /* 底線使用深紫色 */
+            border-bottom: 2px solid var(--color-wonwoo-accent); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            /* 左側邊線使用深紫色，使其更顯眼 */
+            border-left: 4px solid var(--color-wonwoo-accent); 
+            padding-left: 15px;
+            color: var(--color-light-text);
+        }
+        
+        .info-list li strong {
+            color: var(--color-dark-text);
+            font-weight: bold;
+        }
+        
+        /* --- 響應式影片容器樣式 (使用深紫色作為背景) --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: var(--color-wonwoo-accent); 
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-body { flex-direction: column; padding: 30px; text-align: center; }
+            .member-header { padding: 30px 20px; }
+            .member-photo-box img { width: 180px; height: 180px; }
+            .back-link { margin: 20px 0 0 20px; }
+            .member-info h3 { margin-top: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <h1>全圓佑</h1> 
+            <p>Wonwoo (Hip Hop Team)</p> 
+        </div>
+
+        <div class="member-body">
+            
+            <div class="member-photo-box">
+                <img src="https://via.placeholder.com/250/8A2BE2/FFFFFF?text=Wonwoo+Photo" alt="Wonwoo 照片">
+            </div>
+            
+            <div class="member-info">
+                <h3>基本檔案</h3>
+                <ul class="info-list">
+                    <li><strong>藝名 (Stage Name)：</strong>Wonwoo (원우)</li>
+                    <li><strong>本名 (Real Name)：：</strong>전원우 / Jeon Wonwoo</li>
+                    <li><strong>生日 (Birthday)：：</strong>1996.07.17</li> 
+                    
+                    <li><strong>所屬分隊：：</strong>Hip Hop Team</li>
+                    <li><strong>職務：：：</strong>副Rapper、副唱</li>
+                    <li><strong>綽號 (Nicknames)：：</strong>圓佑、小狐狸、全貓</li>
+                    <li><strong>MBTI：：：</strong>INFP</li>
+                    <li><strong>代表 Emoji：：</strong>🐈‍⬛ (黑貓)</li>
+                </ul>
+                
+                <h3>個人簡介</h3>
+                <p>
+                    Wonwoo 是 Hip Hop Team 的成員，以其低沉的嗓音和獨特的饒舌風格聞名。他擁有冷靜沉著、帶有神秘感的魅力，但同時也有著細膩溫柔的一面。私底下喜歡看書、玩遊戲，被粉絲稱為「全貓」的他，展現出如同黑貓般高冷而又慵懶的迷人氣質。
+                </p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 50px 50px 50px;">
+            <h3 style="margin-top: 0; font-family: var(--font-serif); font-size: 2em; color: var(--color-dark-text); border-bottom: 2px solid var(--color-wonwoo-accent); padding-bottom: 5px; margin-bottom: 20px;">精選影片</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/您的影片ID?si=您的標籤" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.95em; color: gray; text-align: center;">
+                此處為 Wonwoo 相關的音樂或內容影片。
+            </p>
+
+        </div>
+        </div>
+</body>
+</html>
