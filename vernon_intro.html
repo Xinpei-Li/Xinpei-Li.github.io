@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 成員介紹 - Vernon</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (Vernon：深藍/北極熊主題) --- */
+        :root {
+            --color-rose-quartz: #FFC2C1; 
+            --color-serenity: #A2D4F0;   
+            
+            /* Vernon 主題配色 (冷靜深藍/北極) */
+            --color-vernon-main: #ADD8E6; /* 淺藍色 (漸層起點) */
+            --color-vernon-accent: #000080; /* 海軍藍 (強調色/漸層終點) */
+            --color-light-bg: #FFFFFF;   
+            /* 深藍背景，文字需為淺色以保持對比 */
+            --color-dark-text: #2c3e50;  
+            --color-light-text: #4a4a4a; 
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg); 
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-top: 8px solid var(--color-vernon-accent); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-rose-quartz); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-serenity); 
+        }
+
+        /* 頂部資訊區塊 (Header) - 深藍漸變 + 北極熊 */
+        .member-header {
+            padding: 40px 50px;
+            background: linear-gradient(90deg, var(--color-vernon-main), var(--color-vernon-accent)); 
+            /* 標題文字在深藍色上使用白色 */
+            color: white; 
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 北極熊 emoji 樣式 - 標準化尺寸和透明度 */
+        .member-header::before,
+        .member-header::after {
+            content: "🐻‍❄️"; 
+            position: absolute;
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)); /* 淺色陰影 */
+            z-index: 5; 
+            /* 增強 Emoji 相容性 */
+            font-family: Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji, sans-serif;
+        }
+
+        /* 第一隻北極熊位置 (左側) - 標準化設定 */
+        .member-header::before {
+            top: 25px;
+            left: 8%;
+            font-size: 2.8em; 
+            opacity: 0.8; 
+            transform: rotate(-5deg);
+        }
+
+        /* 第二隻北極熊位置 (右側) - 依指令設定 */
+        .member-header::after {
+            bottom: 10px;
+            right: 8%; 
+            font-size: 2.5em; 
+            opacity: 0.7; 
+            transform: rotate(10deg);
+        }
+
+        .member-header h1, .member-header p {
+            position: relative; 
+            z-index: 10; 
+            text-shadow: none; 
+        }
+
+        .member-header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .member-header p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        .member-body {
+            display: flex;
+            padding: 50px;
+            gap: 40px;
+        }
+        
+        .member-photo-box {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .member-photo-box img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid var(--color-vernon-accent); 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .member-info {
+            flex-grow: 1;
+        }
+        
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-dark-text); 
+            border-bottom: 2px solid var(--color-vernon-accent); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-left: 4px solid var(--color-vernon-accent); 
+            padding-left: 15px;
+            color: var(--color-light-text);
+        }
+        
+        .info-list li strong {
+            color: var(--color-dark-text);
+            font-weight: bold;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            background: var(--color-vernon-accent); 
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-body { flex-direction: column; padding: 30px; text-align: center; }
+            .member-header { padding: 30px 20px; }
+            .member-photo-box img { width: 180px; height: 180px; }
+            .back-link { margin: 20px 0 0 20px; }
+            .member-info h3 { margin-top: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <h1>崔瀚率</h1> 
+            <p>Vernon (Hip Hop Team)</p> 
+        </div>
+
+        <div class="member-body">
+            <div class="member-photo-box">
+                <img src="https://via.placeholder.com/250/000080/FFFFFF?text=Vernon+Photo" alt="Vernon 照片">
+            </div>
+            
+            <div class="member-info">
+                <h3>基本檔案</h3>
+                <ul class="info-list">
+                    <li><strong>藝名 (Stage Name)：</strong>Vernon (버논)</li>
+                    <li><strong>本名 (Real Name)：：</strong>최한솔 / Hansol Vernon Chwe</li>
+                    <li><strong>生日 (Birthday)：：</strong>1998.02.18</li> 
+                    
+                    <li><strong>所屬分隊：：</strong>Hip Hop Team</li>
+                    <li><strong>職務：：：</strong>主Rapper、副唱</li>
+                    <li><strong>綽號 (Nicknames)：：</strong>小熊、小李子、包子</li>
+                    <li><strong>MBTI：：：</strong>ENFP</li>
+                    <li><strong>代表 Emoji：：</strong>🐻‍❄️ (北極熊)</li>
+                </ul>
+                
+                <h3>個人簡介</h3>
+                <p>
+                    Vernon 是美韓混血成員，擁有深邃的外貌和獨特的低音饒舌聲線。他的性格被形容為冷靜、沉著且富有思想，有時帶著一種慵懶的魅力，像極了冰原上的北極熊。他在音樂創作上也有積極參與，展現出其藝術家的一面。
+                </p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 50px 50px 50px;">
+            <h3 style="margin-top: 0; font-family: var(--font-serif); font-size: 2em; color: var(--color-dark-text); border-bottom: 2px solid var(--color-vernon-accent); padding-bottom: 5px; margin-bottom: 20px;">精選影片</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/您的影片ID?si=您的標籤" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.95em; color: gray; text-align: center;">
+                此處為 Vernon 相關的音樂或內容影片。
+            </p>
+
+        </div>
+    </div>
+</body>
+</html>
