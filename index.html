@@ -69,21 +69,25 @@
         section.is-visible { opacity: 1; transform: translateY(0); }
 
         h2 { font-family: var(--font-serif); font-size: 3em; color: var(--color-accent); margin-bottom: 30px; text-align: center; }
+        
+        .origin-text { max-width: 800px; margin: 0 auto; text-align: left; }
+        .origin-text h3 { color: var(--color-serenity); margin-top: 25px; border-bottom: 2px solid var(--color-rose-quartz); display: inline-block; }
 
         .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
-        .member-link { text-decoration: none; color: inherit; }
         .member-card { text-align: center; transition: transform 0.3s; }
         .member-card:hover { transform: scale(1.05); }
-        
-        /* 圖片路徑現在直接指向檔案 */
-        .member-card img {
-            width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
-            border-radius: 15px; border: 4px solid var(--color-rose-quartz);
-        }
+        .member-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 15px; border: 4px solid var(--color-rose-quartz); }
 
         .unit-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .unit-card { width: 300px; text-align: center; text-decoration: none; color: inherit; }
-        .unit-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 15px; }
+        .unit-card { width: 300px; text-align: center; background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: transform 0.3s; }
+        .unit-card:hover { transform: translateY(-10px); }
+        .unit-card img { width: 100%; height: 200px; object-fit: cover; }
+        .unit-card h3 { margin: 15px 0; }
+
+        .video-container { position: relative; width: 100%; max-width: 800px; margin: 0 auto; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+        footer { text-align: center; padding: 40px; background-color: var(--color-dark-text); color: white; margin-top: 50px; border-radius: 15px 15px 0 0; }
 
         @keyframes textFadeIn { to { opacity: 1; } }
     </style>
@@ -92,32 +96,44 @@
 
     <nav>
         <a href="#hero" class="active">首頁</a>
+        <a href="#origin">由來</a>
         <a href="#members">成員</a>
         <a href="#units">小分隊</a>
+        <a href="#variety">綜藝</a>
     </nav>
 
     <div class="hero" id="hero">
         <div>
             <h1>SEVENTEEN</h1>
-            <p>SAY THE NAME</p>
+            <p>SAY THE NAME~SEVENTEEN</p>
         </div>
     </div>
 
     <main>
+        <section id="origin">
+            <h2>團體由來</h2>
+            <div class="origin-text">
+                <h3>💎 團名核心</h3>
+                <p>SEVENTEEN 的團名代表：13位成員 + 3個分隊 + 1個團體 = 17。</p>
+                <h3>💖 粉絲名「CARAT」</h3>
+                <p>象徵著克拉讓鑽石（SEVENTEEN）更加閃耀，且克拉數越高鑽石越珍貴。</p>
+            </div>
+        </section>
+
         <section id="members">
             <h2>成員介紹</h2>
             <div class="member-grid">
                 <div class="member-card"><img src="scoups.jpg.jpeg" alt="S.Coups"><span>S.Coups</span></div>
-                <div class="member-card"><img src="jeonghan.jpg.jpeg" alt="Jeonghan"><span>淨漢</span></div>
+                <div class="member-card"><img src="jeonghan.jpg.jpeg" alt="淨漢"><span>淨漢</span></div>
                 <div class="member-card"><img src="joshua.jpg.jpeg" alt="Joshua"><span>Joshua</span></div>
                 <div class="member-card"><img src="jun.jpg.jpeg" alt="Jun"><span>Jun</span></div>
                 <div class="member-card"><img src="hoshi.jpg.jpeg" alt="Hoshi"><span>Hoshi</span></div>
-                <div class="member-card"><img src="wonwoo.jpg.jpeg" alt="Wonwoo"><span>圓佑</span></div>
+                <div class="member-card"><img src="wonwoo.jpg.jpeg" alt="圓佑"><span>圓佑</span></div>
                 <div class="member-card"><img src="woozi.jpg.jpeg" alt="Woozi"><span>Woozi</span></div>
                 <div class="member-card"><img src="dk.jpg.jpeg" alt="DK"><span>DK</span></div>
-                <div class="member-card"><img src="mingyu.jpg.jpeg" alt="Mingyu"><span>珉奎</span></div>
+                <div class="member-card"><img src="mingyu.jpg.jpeg" alt="珉奎"><span>珉奎</span></div>
                 <div class="member-card"><img src="the8.jpg.jpeg" alt="The8"><span>The8</span></div>
-                <div class="member-card"><img src="seungkwan.jpg.jpeg" alt="Seungkwan"><span>勝寛</span></div>
+                <div class="member-card"><img src="seungkwan.jpg.jpeg" alt="勝寛"><span>勝寛</span></div>
                 <div class="member-card"><img src="vernon.jpg.jpeg" alt="Vernon"><span>Vernon</span></div>
                 <div class="member-card"><img src="dino.jpg.jpeg" alt="Dino"><span>Dino</span></div>
             </div>
@@ -126,21 +142,33 @@
         <section id="units">
             <h2>小分隊</h2>
             <div class="unit-container">
-                <div class="unit-card">
-                    <img src="hiphop-unit.jpg.jpeg" alt="嘻哈小分隊">
+                <a href="hht_intro.html" class="unit-card">
+                    <img src="hiphop-unit.jpg.jpeg" alt="HipHop">
                     <h3>嘻哈小分隊</h3>
-                </div>
-                <div class="unit-card">
-                    <img src="performance-unit.jpg.jpeg" alt="表演小分隊">
-                    <h3>表演小分隊</h3>
-                </div>
-                <div class="unit-card">
-                    <img src="vocal-unit.jpg.jpeg" alt="主唱小分隊">
+                </a>
+                <a href="vt_intro.html" class="unit-card">
+                    <img src="vocal-unit.jpg.jpeg" alt="Vocal">
                     <h3>主唱小分隊</h3>
-                </div>
+                </a>
+                <a href="pt_intro.html" class="unit-card">
+                    <img src="performance-unit.jpg.jpeg" alt="Performance">
+                    <h3>表演小分隊</h3>
+                </a>
             </div>
         </section>
+
+        <section id="variety">
+            <h2>🎬 GOING SEVENTEEN</h2>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/G_z-5_P1wP0" allowfullscreen></iframe>
+            </div>
+            <p style="text-align: center; margin-top: 15px; font-weight: bold;">必看經典：無窮花開了 (The Tag)</p>
+        </section>
     </main>
+
+    <footer>
+        <p>&copy; 2025 SEVENTEEN CARAT PAGE. All Rights Reserved.</p>
+    </footer>
 
     <script>
         const sections = document.querySelectorAll('section');
@@ -150,6 +178,18 @@
             });
         }, { threshold: 0.1 });
         sections.forEach(section => observer.observe(section));
+
+        const navLinks = document.querySelectorAll('nav a');
+        window.addEventListener('scroll', () => {
+            let current = 'hero';
+            sections.forEach(section => {
+                if (pageYOffset >= section.offsetTop - 150) current = section.getAttribute('id');
+            });
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').includes(current)) a.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
