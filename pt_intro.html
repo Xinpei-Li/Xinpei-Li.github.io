@@ -66,13 +66,18 @@
 
         /* 頂部資訊區塊 (Header) - 純圖片背景 */
         .member-header {
-            padding: 40px 50px;
-            background: url('performance-unit.jpg.jpeg') top/cover;
-            color: white; 
-            text-align: center;
-            position: relative; 
-            overflow: hidden; 
-        }
+    /* 1. 增加高度，讓圖片有更多空間展示 */
+    padding: 180px 50px; 
+    
+    /* 2. 微調位置：center 代表左右置中，30% 代表上下位置 (0% 是頂部, 100% 是底部) */
+    /* 因為你說中偏上，建議試試 20% 或 30% */
+    background: url('performance-unit.jpg.jpeg') center 30%/cover no-repeat; 
+    
+    color: white; 
+    text-align: center;
+    position: relative; 
+    overflow: hidden; 
+}
         
         /* 使用 ::before 偽元素創建半透明白色疊層 */
         .member-header::before {
