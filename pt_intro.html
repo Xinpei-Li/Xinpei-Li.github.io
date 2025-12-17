@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 小分隊介紹 - Performance Team</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (PT：深藍主題 + 背景圖 + 白色疊層) --- */
+        :root {
+            --color-rose-quartz: #FFC2C1; 
+            --color-serenity: #A2D4F0;   
+            
+            /* PT 主題配色 (深藍色) */
+            --color-pt-main: #00008B; /* 深藍色 */
+            --color-pt-accent: #1E90FF; /* 道奇藍 (強調色) */
+            --color-light-bg: #F5F5F5;   
+            --color-dark-text: #2c3e50;  
+            --color-light-text: #4a4a4a; 
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg); 
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            border-top: 8px solid var(--color-pt-accent); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-rose-quartz); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-serenity); 
+        }
+
+        /* 頂部資訊區塊 (Header) - 純圖片背景 */
+        .member-header {
+            padding: 40px 50px;
+            background: url('https://via.placeholder.com/900x200/00008B/FFFFFF?text=Performance+Team+Photo+Here') center/cover;
+            color: white; 
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 使用 ::before 偽元素創建半透明白色疊層 */
+        .member-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3); 
+            z-index: 8; 
+        }
+
+        /* 包裹文字的 div，確保文字在最上層 */
+        .header-content {
+            position: relative;
+            z-index: 20; 
+        }
+
+        .header-content h1, .header-content p {
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); 
+        }
+
+        .header-content h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .header-content p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* 核心內容 */
+        .member-body {
+            padding: 50px;
+        }
+
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-dark-text); 
+            border-bottom: 2px solid var(--color-pt-accent); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* 成員列表 - 確保 4 位成員並排 */
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            /* 4 個卡片並排: calc(100% / 4 - 間隙) */
+            flex: 0 0 calc(25% - 15px); 
+            text-align: center;
+            padding: 20px 10px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-pt-accent);
+        }
+        
+        .member-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--color-pt-accent);
+            margin-bottom: 10px;
+        }
+
+        .member-card strong {
+            display: block;
+            font-size: 1.2em;
+            color: var(--color-dark-text);
+        }
+        
+        .member-card p {
+            font-size: 0.9em;
+            color: var(--color-light-text);
+        }
+        
+        /* YouTube 影片容器樣式 */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-header { padding: 30px 20px; }
+            .member-body { padding: 30px; }
+            .back-link { margin: 20px 0 0 20px; }
+            /* 小螢幕卡片依然保持換行 */
+            .member-card { flex: 1 1 120px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <div class="header-content">
+                <h1>Performance Team</h1> 
+                <p>舞台與編舞的藝術家</p> 
+            </div>
+        </div>
+
+        <div class="member-body member-info">
+            <h3>分隊簡介</h3>
+            <p>
+                Performance Team 是 SEVENTEEN 舞台視覺的靈魂，由 Hoshi 擔任隊長兼主編舞。他們負責團體所有歌曲的編舞設計、舞台構成和視覺表現。他們以精準、創新和富有力量感的舞蹈風格聞名，總能透過肢體語言完美詮釋歌曲的意境。
+            </p>
+
+            <h3>分隊成員</h3>
+            <div class="member-list">
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/100/00008B/FFFFFF?text=Hoshi" alt="Hoshi 照片">
+                    <strong>順榮 (Hoshi)</strong>
+                    <p>隊長 / 主舞</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/100/00008B/FFFFFF?text=Jun" alt="Jun 照片">
+                    <strong>俊輝 (Jun)</strong>
+                    <p>領舞 / 副唱</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/100/00008B/FFFFFF?text=The8" alt="The8 照片">
+                    <strong>明浩 (The8)</strong>
+                    <p>領舞 / 武術</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/100/00008B/FFFFFF?text=Dino" alt="Dino 照片">
+                    <strong>李燦 (Dino)</strong>
+                    <p>主舞 / 忙內</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px;">代表作品</h3>
+            <ul style="list-style: disc; padding-left: 25px;">
+                <li>**《Highlight》** (2016)</li>
+                <li>**《Lilili Yabbay (落花)》** (2017)</li>
+                <li>**《Shhh》** (2020)</li>
+                <li>**《I Don't Understand But I Luv U》** (2022)</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">代表影像 (YouTube)</h3>
+            <p>下方為 Performance Team 代表作品《Highlight》的官方 MV。</p>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/VIDEO_ID_HERE_PT" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
