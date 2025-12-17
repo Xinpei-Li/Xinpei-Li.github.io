@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 成員介紹 - S.Coups</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (S.Coups：深紅加強版) --- */
+        :root {
+            /* 官方應援色 */
+            --color-rose-quartz: #FFC2C1; 
+            --color-serenity: #A2D4F0;   
+            
+            /* S.Coups 主題配色 - 加強紅色對比 */
+            --color-scoups-deep-red: #B00020; 
+            --color-accent: #E91E63;     
+            --color-light-bg: #F0F4F8;   
+            --color-dark-text: #2c3e50;  
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg);
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        /* 內容容器 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-top: 8px solid var(--color-scoups-deep-red); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-serenity); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-rose-quartz); 
+        }
+
+        /* 頂部資訊區塊 (Header) */
+        .member-header {
+            padding: 40px 50px;
+            background: linear-gradient(90deg, var(--color-rose-quartz), var(--color-scoups-deep-red)); 
+            color: white;
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 櫻桃 emoji 樣式 */
+        .member-header::before,
+        .member-header::after {
+            content: "🍒"; 
+            font-size: 3em; 
+            position: absolute;
+            opacity: 0.8; 
+            transition: all 0.5s ease;
+            filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+        }
+
+        /* 第一顆櫻桃位置 (左上角) */
+        .member-header::before {
+            top: 10px;
+            left: 5%;
+            transform: rotate(-20deg);
+        }
+
+        /* 第二顆櫻桃位置 (右下角) */
+        .member-header::after {
+            bottom: 5px;
+            right: 10%;
+            font-size: 2.5em; 
+            opacity: 0.6;
+            transform: rotate(30deg);
+        }
+        
+        /* 保持標題在 emoji 上層 */
+        .member-header h1, .member-header p {
+            position: relative; 
+            z-index: 10;
+        }
+
+        .member-header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-header p {
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+
+        /* 核心內容 (圖片與資料) */
+        .member-body {
+            display: flex;
+            padding: 50px;
+            gap: 40px;
+        }
+        
+        /* 圖片容器 */
+        .member-photo-box {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .member-photo-box img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid var(--color-scoups-deep-red); 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 基本資料 */
+        .member-info {
+            flex-grow: 1;
+        }
+        
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-scoups-deep-red); 
+            border-bottom: 2px solid var(--color-rose-quartz); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-left: 4px solid var(--color-rose-quartz); 
+            padding-left: 15px;
+        }
+        
+        .info-list li strong {
+            color: var(--color-dark-text);
+            font-weight: bold;
+        }
+        
+        /* --- 響應式影片容器樣式 --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: var(--color-scoups-deep-red); 
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-body { flex-direction: column; padding: 30px; text-align: center; }
+            .member-header { padding: 30px 20px; }
+            .member-photo-box img { width: 180px; height: 180px; }
+            .back-link { margin: 20px 0 0 20px; }
+            .member-info h3 { margin-top: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <h1>崔勝哲</h1> 
+            <p>S.Coups (總隊長 / Hip Hop Team 隊長)</p> 
+        </div>
+
+        <div class="member-body">
+            
+            <div class="member-photo-box">
+                <img src="https://via.placeholder.com/250/B00020/FFFFFF?text=S.Coups+Photo" alt="S.Coups 照片">
+            </div>
+            
+            <div class="member-info">
+                <h3>基本檔案</h3>
+                <ul class="info-list">
+                    <li><strong>藝名 (Stage Name)：</strong>S.Coups</li>
+                    <li><strong>本名 (Real Name)：</strong>최승철 / Choi Seung Cheol</li>
+                    <li><strong>生日 (Birthday)：</strong>1995.08.08</li> 
+                    
+                    <li><strong>所屬分隊：</strong>Hip Hop Team</li>
+                    <li><strong>職務：</strong>SEVENTEEN 總隊長、主 Rapper</li>
+                    <li><strong>MBTI：</strong>INFP</li>
+                    <li><strong>代表 Emoji：</strong>🍒 (櫻桃)</li>
+                </ul>
+                
+                <h3>個人簡介</h3>
+                <p>
+                    S.Coups 作為 SEVENTEEN 的總隊長，是整個團體的精神支柱和領導者。他以強大的責任感、溫暖的領導力和精湛的 Rap 實力著稱。他不僅是 Hip Hop 分隊的隊長，更是團隊內外事務的協調者，對成員們來說是不可或缺的堅實存在。
+                </p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 50px 50px 50px;">
+            <h3 style="margin-top: 0; font-family: var(--font-serif); font-size: 2em; color: var(--color-scoups-deep-red); border-bottom: 2px solid var(--color-rose-quartz); padding-bottom: 5px; margin-bottom: 20px;">精選影片</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/kYc7lqN6w7Y?si=Gz3JvS-1_kU1N6tG" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.95em; color: gray; text-align: center;">
+                此處為 S.Coups 相關的音樂或內容影片。
+            </p>
+
+        </div>
+        </div>
+</body>
+</html>
