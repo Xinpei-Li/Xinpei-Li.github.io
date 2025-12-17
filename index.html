@@ -70,26 +70,36 @@
 
         h2 { font-family: var(--font-serif); font-size: 3em; color: var(--color-accent); margin-bottom: 30px; text-align: center; }
         
+        /* 團體由來區塊 */
         .origin-text { max-width: 800px; margin: 0 auto; text-align: left; }
-        .origin-text h3 { color: var(--color-serenity); margin-top: 25px; border-bottom: 2px solid var(--color-rose-quartz); display: inline-block; }
+        .origin-text h3 { color: var(--color-serenity); margin-top: 25px; margin-bottom: 10px; border-bottom: 2px solid var(--color-rose-quartz); display: inline-block; padding-bottom: 5px; }
 
+        /* 成員區塊 */
         .member-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
         .member-card { text-align: center; transition: transform 0.3s; }
         .member-card:hover { transform: scale(1.05); }
         .member-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 15px; border: 4px solid var(--color-rose-quartz); }
 
+        /* 小分隊區塊 */
         .unit-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .unit-card { width: 300px; text-align: center; background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: transform 0.3s; }
-        .unit-card:hover { transform: translateY(-10px); }
+        .unit-card { width: 300px; text-align: center; background: #fff; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-decoration: none; color: inherit; transition: transform 0.3s; border: 1px solid var(--color-light-bg); }
+        .unit-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         .unit-card img { width: 100%; height: 200px; object-fit: cover; }
-        .unit-card h3 { margin: 15px 0; }
+        .unit-card h3 { margin: 15px 0 5px; }
+        .unit-card p { font-size: 0.9em; padding-bottom: 15px; color: #7f8c8d; }
 
-        .video-container { position: relative; width: 100%; max-width: 800px; margin: 0 auto; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 15px; }
+        /* 綜藝區塊 - 網格佈局 */
+        .youtube-embed-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .video-group { grid-column: 1 / -1; margin-top: 40px; margin-bottom: 20px; text-align: center; }
+        .video-item { display: flex; flex-direction: column; align-items: center; }
+        .video-container { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .video-label { font-weight: bold; margin-top: 10px; color: var(--color-dark-text); text-align: center; }
 
-        footer { text-align: center; padding: 40px; background-color: var(--color-dark-text); color: white; margin-top: 50px; border-radius: 15px 15px 0 0; }
+        footer { text-align: center; padding: 40px; background-color: var(--color-dark-text); color: var(--color-serenity); margin-top: 50px; border-radius: 15px 15px 0 0; font-size: 0.9em; }
 
         @keyframes textFadeIn { to { opacity: 1; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 3.5em; } nav { display: none; } }
     </style>
 </head>
 <body>
@@ -113,10 +123,12 @@
         <section id="origin">
             <h2>團體由來</h2>
             <div class="origin-text">
-                <h3>💎 團名核心</h3>
-                <p>SEVENTEEN 的團名代表：13位成員 + 3個分隊 + 1個團體 = 17。</p>
-                <h3>💖 粉絲名「CARAT」</h3>
-                <p>象徵著克拉讓鑽石（SEVENTEEN）更加閃耀，且克拉數越高鑽石越珍貴。</p>
+                <h3>💎 團名與核心概念</h3>
+                <p>SEVENTEEN 的團名代表 **「13位成員 + 3個分隊 + 1個團體 = 17」**。這是一個將成員、分隊和團體視為一體的獨特數學公式。三個分隊分別為：**主唱 (Vocal)**、**表演 (Performance)** 和 **嘻哈 (Hip Hop)**，各自主導團體的音樂、編舞和 Rap 創作。</p>
+                <h3>🚀 出道前的養成期</h3>
+                <p>SEVENTEEN 的出道過程與眾不同，他們在出道前經歷了漫長而透明的訓練期。從 2013 年開始，成員們透過網路直播節目 **《SEVENTEEN TV》** 向公眾展示他們的訓練過程、選拔和成長，讓粉絲提前見證了他們的蛻變。</p>
+                <h3>💖 粉絲名「CARAT」(克拉) 的由來</h3>
+                <p>粉絲名 **CARAT** (克拉) 於 2016 年公佈，靈感源自鑽石的重量單位。它象徵著 **粉絲們 (CARAT)** 讓 **SEVENTEEN (鑽石)** 的價值和閃耀程度不斷提升。</p>
             </div>
         </section>
 
@@ -145,32 +157,54 @@
                 <a href="hht_intro.html" class="unit-card">
                     <img src="hiphop-unit.jpg.jpeg" alt="HipHop">
                     <h3>嘻哈小分隊</h3>
+                    <p>S.COUPS, Wonwoo, Mingyu, Vernon</p>
                 </a>
                 <a href="vt_intro.html" class="unit-card">
                     <img src="vocal-unit.jpg.jpeg" alt="Vocal">
                     <h3>主唱小分隊</h3>
+                    <p>Jeonghan, Joshua, Woozi, DK, Seungkwan</p>
                 </a>
                 <a href="pt_intro.html" class="unit-card">
                     <img src="performance-unit.jpg.jpeg" alt="Performance">
                     <h3>表演小分隊</h3>
+                    <p>Hoshi, Jun, The8, Dino</p>
                 </a>
             </div>
         </section>
 
         <section id="variety">
-            <h2>🎬 GOING SEVENTEEN</h2>
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/G_z-5_P1wP0" allowfullscreen></iframe>
+            <h2>🎬 GOING SEVENTEEN 經典回顧</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px; font-weight: bold;">SEVENTEEN 的自製綜藝以其高質量聞名，是粉絲們的快樂泉源。</p>
+            
+            <div class="youtube-embed-grid">
+                <div class="video-group">
+                    <h3 style="color: var(--color-accent);">🏆 觀看次數前三名</h3>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-container"><iframe src="https://www.youtube.com/embed/G_z-5_P1wP0" allowfullscreen></iframe></div>
+                    <p class="video-label">🥇 無窮花開了 (The Tag)</p>
+                </div>
+
+                <div class="video-item">
+                    <div class="video-container"><iframe src="https://www.youtube.com/embed/S_8S_S_8S_S" allowfullscreen></iframe></div>
+                    <p class="video-label">🥈 躺放 (Don't Lie)</p>
+                </div>
+
+                <div class="video-item">
+                    <div class="video-container"><iframe src="https://www.youtube.com/embed/X_X_X_X_X_X" allowfullscreen></iframe></div>
+                    <p class="video-label">🥉 夫勝寛的前生緣分</p>
+                </div>
             </div>
-            <p style="text-align: center; margin-top: 15px; font-weight: bold;">必看經典：無窮花開了 (The Tag)</p>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2025 SEVENTEEN CARAT PAGE. All Rights Reserved.</p>
+        <p>&copy; 2025 由 CARATs 製作。玫瑰石英粉與寧靜藍。</p>
     </footer>
 
     <script>
+        // 滾動動畫
         const sections = document.querySelectorAll('section');
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -179,6 +213,7 @@
         }, { threshold: 0.1 });
         sections.forEach(section => observer.observe(section));
 
+        // 導航亮點
         const navLinks = document.querySelectorAll('nav a');
         window.addEventListener('scroll', () => {
             let current = 'hero';
