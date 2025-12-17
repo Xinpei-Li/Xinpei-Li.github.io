@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 成員介紹 - 淨漢</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (淨漢：白粉漸層 + 兔子) --- */
+        :root {
+            /* 官方應援色 */
+            --color-rose-quartz: #FFC2C1; /* 玫瑰石英粉 */
+            --color-serenity: #A2D4F0;   /* 寧靜藍 */
+            
+            /* 淨漢主題配色 */
+            --color-jeonghan-main: #FFFFFF; /* 純白色 */
+            --color-jeonghan-accent: #FFC2C1; /* 玫瑰石英粉 (強調色) */
+            --color-light-bg: #FFFFFF;   /* 純白色背景 */
+            --color-dark-text: #4A4E69;  /* 柔和深藍灰文字 */
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg); 
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        /* 內容容器 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border-top: 8px solid var(--color-jeonghan-accent); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-serenity); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-rose-quartz); 
+        }
+
+        /* 頂部資訊區塊 (Header) */
+        .member-header {
+            padding: 40px 50px;
+            background: linear-gradient(90deg, var(--color-jeonghan-main), var(--color-jeonghan-accent)); 
+            color: var(--color-dark-text); 
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 兔子 emoji 樣式 */
+        .member-header::before,
+        .member-header::after {
+            content: "🐰"; 
+            font-size: 3em; 
+            position: absolute;
+            opacity: 0.9; 
+            transition: all 0.5s ease;
+        }
+
+        /* 第一隻兔子位置 (左側) */
+        .member-header::before {
+            top: 20px;
+            left: 5%;
+            transform: rotate(-5deg);
+        }
+
+        /* 第二隻兔子位置 (右側) */
+        .member-header::after {
+            bottom: 10px;
+            right: 8%;
+            font-size: 2.5em; 
+            opacity: 0.7;
+            transform: rotate(10deg);
+        }
+
+        /* 確保標題和副標題在 emoji 上層 */
+        .member-header h1, .member-header p {
+            position: relative; 
+            z-index: 10;
+            text-shadow: none; 
+        }
+
+        .member-header h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .member-header p {
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+
+        /* 核心內容 (圖片與資料) */
+        .member-body {
+            display: flex;
+            padding: 50px;
+            gap: 40px;
+        }
+        
+        /* 圖片容器 */
+        .member-photo-box {
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .member-photo-box img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid var(--color-jeonghan-accent); 
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* 基本資料 */
+        .member-info {
+            flex-grow: 1;
+        }
+        
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-dark-text); 
+            border-bottom: 2px solid var(--color-jeonghan-accent); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            border-left: 4px solid var(--color-jeonghan-accent); 
+            padding-left: 15px;
+        }
+        
+        .info-list li strong {
+            color: var(--color-dark-text);
+            font-weight: bold;
+        }
+        
+        /* --- 響應式影片容器樣式 --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: var(--color-jeonghan-accent); 
+            margin-top: 25px;
+            border-radius: 8px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-body { flex-direction: column; padding: 30px; text-align: center; }
+            .member-header { padding: 30px 20px; }
+            .member-photo-box img { width: 180px; height: 180px; }
+            .back-link { margin: 20px 0 0 20px; }
+            .member-info h3 { margin-top: 30px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <h1>尹淨漢</h1> 
+            <p>Jeonghan (Vocal Team)</p> 
+        </div>
+
+        <div class="member-body">
+            
+            <div class="member-photo-box">
+                <img src="https://via.placeholder.com/250/FFC2C1/4A4E69?text=Jeonghan+Photo" alt="淨漢 照片">
+            </div>
+            
+            <div class="member-info">
+                <h3>基本檔案</h3>
+                <ul class="info-list">
+                    <li><strong>藝名 (Stage Name)：</strong>淨漢 (Jeonghan)</li>
+                    <li><strong>本名 (Real Name)：</strong>윤정한 / Yoon Jeong Han</li>
+                    <li><strong>生日 (Birthday)：：</strong>1995.10.04</li> 
+                    
+                    <li><strong>所屬分隊：</strong>Vocal Team</li>
+                    <li><strong>職務：：</strong>副唱、領舞</li>
+                    <li><strong>MBTI：：</strong>ISFJ</li>
+                    <li><strong>代表 Emoji：：</strong>🐰 (兔子)</li>
+                </ul>
+                
+                <h3>個人簡介</h3>
+                <p>
+                    淨漢屬於 Vocal Team，擁有柔和而細膩的嗓音，是團體中音色非常溫暖的成員。他以其機智和在團隊中的人氣聞名，同時也因其溫順俊美的外貌被粉絲暱稱為「天使」。他的存在為 SEVENTEEN 的和聲與表演帶來了穩定的柔和魅力。
+                </p>
+            </div>
+        </div>
+        
+        <div style="padding: 0 50px 50px 50px;">
+            <h3 style="margin-top: 0; font-family: var(--font-serif); font-size: 2em; color: var(--color-dark-text); border-bottom: 2px solid var(--color-jeonghan-accent); padding-bottom: 5px; margin-bottom: 20px;">精選影片</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/您的影片ID?si=您的標籤" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            
+            <p style="margin-top: 20px; font-size: 0.95em; color: gray; text-align: center;">
+                此處為淨漢相關的音樂或內容影片。
+            </p>
+
+        </div>
+        </div>
+</body>
+</html>
