@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEVENTEEN 小分隊介紹 - Vocal Team</title> 
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS 樣式 (VT：背景圖 + 白色疊層) --- */
+        :root {
+            --color-rose-quartz: #FFC2C1; 
+            --color-serenity: #A2D4F0;   
+            
+            /* VT 主題配色 */
+            --color-vt-accent: #FFC0CB; /* 強調色：淺玫瑰粉 */
+            --color-light-bg: #F5F5F5;   
+            --color-dark-text: #2c3e50;  
+            --color-light-text: #4a4a4a; 
+
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-light-bg); 
+            color: var(--color-dark-text);
+            line-height: 1.8;
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border-top: 8px solid var(--color-vt-accent); 
+        }
+
+        .back-link {
+            display: inline-block;
+            margin: 20px 0 0 50px;
+            padding: 10px 20px;
+            background: var(--color-rose-quartz); 
+            color: var(--color-dark-text);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .back-link:hover {
+            background: var(--color-serenity); 
+        }
+
+        /* 頂部資訊區塊 (Header) - 純圖片背景 */
+        .member-header {
+            padding: 40px 50px;
+            background: url('https://via.placeholder.com/900x200/FFC0CB/2c3e50?text=Vocal+Team+Photo+Here') center/cover;
+            color: var(--color-dark-text); 
+            text-align: center;
+            position: relative; 
+            overflow: hidden; 
+        }
+        
+        /* 使用 ::before 偽元素創建半透明白色疊層 */
+        .member-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.3); 
+            z-index: 8; 
+        }
+
+        /* 包裹文字的 div，確保文字在最上層 */
+        .header-content {
+            position: relative;
+            z-index: 20; 
+        }
+        
+        .header-content h1, .header-content p {
+            position: relative; 
+            z-index: 10; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4); 
+        }
+
+        .header-content h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5em;
+            margin-bottom: 5px;
+        }
+
+        .header-content p {
+            font-size: 1.2em;
+            font-weight: 400;
+        }
+
+        /* 核心內容 */
+        .member-body {
+            padding: 50px;
+        }
+
+        .member-info h3 {
+            font-family: var(--font-serif);
+            font-size: 2em;
+            color: var(--color-dark-text); 
+            border-bottom: 2px solid var(--color-vt-accent); 
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* 成員列表 - 確保 5 位成員並排 */
+        .member-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .member-card {
+            /* 5 個卡片並排: calc(100% / 5 - 間隙) */
+            flex: 0 0 calc(20% - 15px); 
+            text-align: center;
+            padding: 20px 10px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-vt-accent);
+        }
+        
+        .member-card img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--color-vt-accent);
+            margin-bottom: 10px;
+        }
+
+        .member-card strong {
+            display: block;
+            font-size: 1.1em;
+            color: var(--color-dark-text);
+        }
+        
+        .member-card p {
+            font-size: 0.85em;
+            color: var(--color-light-text);
+        }
+        
+        /* YouTube 影片容器樣式 */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; 
+            height: 0;
+            margin-top: 20px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .container { margin: 0 10px; padding-top: 10px; }
+            .member-header { padding: 30px 20px; }
+            .member-body { padding: 30px; }
+            .back-link { margin: 20px 0 0 20px; }
+            /* 小螢幕卡片依然保持換行 */
+            .member-card { flex: 1 1 100px; }
+        }
+    </style>
+</head>
+<body>
+    <a href="seventeen_chinese_full.html" class="back-link">← 返回 SEVENTEEN 總覽</a>
+
+    <div class="container">
+        <div class="member-header">
+            <div class="header-content">
+                <h1>Vocal Team</h1> 
+                <p>高音與和聲的完美演繹</p> 
+            </div>
+        </div>
+
+        <div class="member-body member-info">
+            <h3>分隊簡介</h3>
+            <p>
+                Vocal Team 是 SEVENTEEN 的歌唱核心，由 Woozi 擔任製作人與隊長。他們負責團體歌曲中的所有演唱部分，以廣闊的音域、精緻的和聲和感性的表達能力聞名。五位成員各自擁有獨特的音色，共同創造出富有層次感且觸動人心的音樂。
+            </p>
+
+            <h3>分隊成員</h3>
+            <div class="member-list">
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/90/FFC0CB/2c3e50?text=Woozi" alt="Woozi 照片">
+                    <strong>知勳 (Woozi)</strong>
+                    <p>隊長 / 製作人</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/90/FFC0CB/2c3e50?text=Jeonghan" alt="Jeonghan 照片">
+                    <strong>淨漢 (Jeonghan)</strong>
+                    <p>副唱</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/90/FFC0CB/2c3e50?text=Joshua" alt="Joshua 照片">
+                    <strong>知秀 (Joshua)</strong>
+                    <p>副唱</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/90/FFC0CB/2c3e50?text=DK" alt="DK 照片">
+                    <strong>碩珉 (DK)</strong>
+                    <p>主唱</p>
+                </div>
+                <div class="member-card">
+                    <img src="https://via.placeholder.com/90/FFC0CB/2c3e50?text=Seungkwan" alt="Seungkwan 照片">
+                    <strong>勝寬 (Seungkwan)</strong>
+                    <p>主唱</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 40px;">代表作品</h3>
+            <ul style="list-style: disc; padding-left: 25px;">
+                <li>**《20》** (2015)</li>
+                <li>**《Pinwheel (風車)》** (2017)</li>
+                <li>**《Hug (擁抱)》** (2019)</li>
+                <li>**《Imperfect love (不完美的愛)》** (2021)</li>
+            </ul>
+
+            <h3 style="margin-top: 40px;">代表影像 (YouTube)</h3>
+            <p>下方為 Vocal Team 代表作品《Hug (擁抱)》的影片。</p>
+            <div class="video-container">
+                <iframe 
+                    src="https://www.youtube.com/embed/VIDEO_ID_HERE_VT" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
