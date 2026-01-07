@@ -47,18 +47,23 @@
             color: white; background-color: var(--color-accent);
             box-shadow: 0 0 10px rgba(233, 30, 99, 0.5);
         }
-
-        .hero {
-            height: 100vh; display: flex; align-items: center; justify-content: center;
-            text-align: center; position: relative; padding-top: 25vh; 
-            background: linear-gradient(135deg, var(--color-rose-quartz) 0%, var(--color-serenity) 100%);
+.hero {
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            text-align: center; 
+            position: relative; 
+            padding-top: 25vh; 
+            
+            /* --- 背景圖片設定開始 --- */
+            /* 請將下面的 'bg.jpg' 換成你準備好的圖片檔名 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('bg.jpg'); 
+            background-size: cover;      /* 讓圖片縮放至填滿整個螢幕 */
+            background-position: center; /* 圖片置中 */
+            background-attachment: fixed; /* 讓背景有滾動時的視差效果 (可選) */
+            /* --- 背景圖片設定結束 --- */
         }
-
-        .hero h1 { font-family: var(--font-serif); font-size: 7em; font-weight: 700; letter-spacing: 10px; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.3); opacity: 0; animation: textFadeIn 2s 0.5s forwards; }
-        .hero p { font-family: var(--font-serif); font-size: 1.8em; font-weight: 700; color: white; margin-top: 10px; opacity: 0; animation: textFadeIn 2s 1.5s forwards; }
-
-        main { padding: 0 5%; max-width: 1400px; margin: auto; }
-
         section {
             padding: 100px 5%; margin-top: 30px; border-radius: 15px;
             background-color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
