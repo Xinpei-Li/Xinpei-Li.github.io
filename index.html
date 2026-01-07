@@ -74,9 +74,40 @@
             /* --- 背景設定結束 --- */
         }
 
-        /* 文字樣式保持不變 */
-        .hero h1 { font-family: var(--font-serif); font-size: 7em; font-weight: 700; letter-spacing: 10px; color: white; text-shadow: 0 0 20px rgba(0,0,0,0.3); opacity: 0; animation: textFadeIn 2s 0.5s forwards; }
-        .hero p { font-family: var(--font-serif); font-size: 1.8em; font-weight: 700; color: white; margin-top: 10px; opacity: 0; animation: textFadeIn 2s 1.5s forwards; }
+       /* --- 只有修改這裡：純白文字發光效果 --- */
+        .hero h1 { 
+            font-family: var(--font-serif); 
+            font-size: 7em; 
+            font-weight: 700; 
+            letter-spacing: 10px; 
+            color: white; 
+            
+            /* 疊加多層白色陰影，營造純淨的發光感 */
+            text-shadow: 
+                0 0 10px rgba(255, 255, 255, 0.9),
+                0 0 20px rgba(255, 255, 255, 0.6),
+                0 0 40px rgba(255, 255, 255, 0.4);
+            
+            opacity: 0; 
+            animation: textFadeIn 2s 0.5s forwards; 
+        }
+
+        .hero p { 
+            font-family: var(--font-serif); 
+            font-size: 1.8em; 
+            font-weight: 700; 
+            color: white; 
+            margin-top: 10px; 
+            
+            /* 副標題使用較輕微的白色發光 */
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.4);
+            
+            opacity: 0; 
+            animation: textFadeIn 2s 1.5s forwards; 
+        }
+        /* ------------------------------------ */ 1.5s forwards; }
         /* ========================================= */
 
         main { padding: 0 5%; max-width: 1400px; margin: auto; }
